@@ -9,20 +9,22 @@ class Subject extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'name',
         'code',
+        'credits',
         'semester',
     ];
 
     public function teacherSubjectList() {
         return $this->hasMany(TeacherSubject::class, 'subject_id');
     }
-
+   public function students() {
+      return $this->belongsToMany(Student::class, 'student_subject');
+    }
+    public function studentSubjects() { 
+      return $this->hasMany(StudentSubject::class);
+    } 
+    
     public $table = "subjects";
 }

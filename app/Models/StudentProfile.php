@@ -9,11 +9,6 @@ class StudentProfile extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'dob',
         'code',
@@ -27,6 +22,12 @@ class StudentProfile extends Model
     public function user() {
         return $this->hasOne(User::class, 'profile_id');
     }
-
+    public function subjects() {
+    
+      return $this->belongsToMany(Subject::class, 'student_subject');
+    }
+    public function studentSubjects() {
+      return $this->hasMany(StudentSubject::class, 'student_id');
+   }
     public $table = "student_profiles";
 }

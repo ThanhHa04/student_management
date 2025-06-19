@@ -9,12 +9,12 @@ class TeacherProfile extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    protected $fillable = [];
+    protected $fillable = [
+    'id',           
+    'teacher_id',   
+    'phone_number',                 
+    'password',      
+    ];
 
     public function user() {
         return $this->hasOne(User::class, 'profile_id');

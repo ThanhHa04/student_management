@@ -11,11 +11,6 @@ class TeacherSubject extends Model
 {
     use HasFactory;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
     protected $fillable = [
         'teacher_id',
         'subject_id',
