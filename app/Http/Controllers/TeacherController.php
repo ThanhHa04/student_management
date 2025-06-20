@@ -8,6 +8,7 @@ use App\Models\User as MainModel;
 use App\Models\TeacherProfile;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use App\Models\Certificate;
 
 class TeacherController extends Controller
 {
@@ -30,6 +31,12 @@ class TeacherController extends Controller
             $params['role'] = 'teacher';
             DB::transaction(function () use ($params) {
                 $params['profile_id'] = TeacherProfile::create([])->id;
+                MainModel::create($params);
+                $profile = TeacherProfile::create([
+                    'phone_number' => $params['phone_number'] ?? null,
+                    'teacher_id' => $params['teacher_id'] ?? null,
+                ]);
+                $params['profile_id'] = $profile->id;
                 MainModel::create($params);
             });
             return redirect()->route('teachers')->withSuccess("Đã thêm");
@@ -55,8 +62,12 @@ class TeacherController extends Controller
                 unset($params['password']);
             $params['role'] = 'teacher';
             DB::transaction(function () use ($params, $rec) {
-                // $rec->profile->update($params);
+                $rec->profile->update($params);
                 $rec->update($params);
+                 $rec->profile->update([
+                    'phone_number' => $params['phone_number'] ?? null,
+                    'teacher_id' => $params['teacher_id'] ?? null,
+                ]);
             });
             return redirect()->route('teachers')->withSuccess("Đã cập nhật");
         } catch (\Exception $e) {
@@ -75,4 +86,6 @@ class TeacherController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
+
 }
+

@@ -13,7 +13,11 @@
     <div class="input-group input-group-outline">
         <input type="text" name="code" class="form-control" required value="{{$rec->code ?? old('code') ?? ''}}">
     </div>
-
+    <label class="form-label mt-3">Số tín chỉ *</label>
+      <div class="input-group input-group-outline">
+          <input type="number" name="credits" class="form-control" min="1" required
+          value="{{ old('credits', $rec->credits ?? '') }}">
+       </div>
     <label class="form-label mt-3">Kì học *</label>
     <div class="input-group input-group-outline">
         <input type="number" name="semester" class="form-control" required value="{{$rec->semester ?? old('semester') ?? ''}}">

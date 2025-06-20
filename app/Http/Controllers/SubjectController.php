@@ -29,7 +29,12 @@ class SubjectController extends Controller
         try {
             $params = $request->all();
             DB::transaction(function () use ($params) {
-                $rec = MainModel::create($params);
+                $rec = MainModel::create([
+                'name' => $params['name'],
+                'code' => $params['code'],
+                'credits' => $params['credits'],
+                'semester'=> $params['semester'],
+            ]);
                 if(isset($params['teacher_id']))
                     foreach($params['teacher_id'] as $row)
                         TeacherSubject::create(['subject_id' => $rec->id, 'teacher_id' => $row]);
@@ -57,7 +62,12 @@ class SubjectController extends Controller
                 $teacher_subject_list = $rec->teacherSubjectList;
                 foreach($teacher_subject_list as $row)
                     $row->delete();
-                $rec->update($params);
+                $rec->update([
+                'name' => $params['name'],
+                'code' => $params['code'],
+                'credits' => $params['credits'],
+                'semester'=> $params['semester'],
+            ]);
                 if(isset($params['teacher_id']))
                     foreach($params['teacher_id'] as $row)
                         TeacherSubject::create(['subject_id' => $rec->id, 'teacher_id' => $row]);

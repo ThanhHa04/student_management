@@ -9,6 +9,7 @@
                     <tr>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên môn</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã môn</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tín chỉ</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Kì học</th>
                         <th class="text-secondary opacity-7"></th>
                     </tr>
@@ -18,6 +19,7 @@
                     <tr>
                         <td class="text-xs">{{$row->name}}</td>
                         <td class="text-xs">{{$row->code}}</td>
+                        <td class="text-xs">{{ $row->credits }}</td>
                         <td class="text-xs">{{$row->semester}}</td>
                         <td class="align-middle">
                             @if(in_array(auth()->user()->role, ['teacher']))

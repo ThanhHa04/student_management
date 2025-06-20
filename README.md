@@ -34,7 +34,7 @@
 
 # Tài khoản mặc định
 - Sinh viên:
-    - Tài khoản: `student`
+    - Tài khoản: `mssv`
     - Mật khẩu: `password`
 
 - Giáo viên:

@@ -8,12 +8,9 @@
     <title>
         Quản lý đào tạo
     </title>
-   
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" /> 
-    <link href="{{asset('/public/assets/css/nucleo-icons.css')}}" rel="stylesheet" />
-    <link href="{{asset('/public/assets/css/nucleo-svg.css')}}" rel="stylesheet" />  
-    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>  
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900|Roboto+Slab:400,700" />
+    <script src="https://kit.fontawesome.com/42d5adcbca.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">   
     <link id="pagestyle" href="{{asset('/public/assets/css/material-dashboard.css?v=3.0.0')}}" rel="stylesheet" />
 </head>
 
@@ -74,17 +71,18 @@
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{route('teachers')}}">
                         <span class="nav-link-text ms-1">
-                            Danh sách giáo viên
+                            Danh sách giảng viên
                         </span>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{route('teachers.add')}}">
                         <span class="nav-link-text ms-1">
-                            Thêm giáo viên
+                            Thêm giảng viên
                         </span>
                     </a>
                 </li>
+            
                 @endif
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Môn học</h6>
@@ -109,12 +107,6 @@
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Bảng điểm</h6>
                 </li>
                 @if(in_array(auth()->user()->role, ['teacher']))
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('scores.request_edit')}}">
-                        <span class="nav-link-text ms-1">
-                            Danh sách yêu cầu sửa điểm
-                        </span>
-                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-white" href="{{route('scores.add')}}">
@@ -130,17 +122,10 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('scores.classrooms')}}">
+                 <li class="nav-item">
+                    <a class="nav-link text-white" href="{{route('scores.semesters')}}">
                         <span class="nav-link-text ms-1">
-                            Bảng điểm theo lớp
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('scores.students')}}">
-                        <span class="nav-link-text ms-1">
-                            Bảng điểm theo sinh viên
+                            Bảng điểm theo kỳ
                         </span>
                     </a>
                 </li>
@@ -154,13 +139,14 @@
                     </a>
                 </li>
                 @endif
+                @if(Auth::user()->role === 'student')
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('scores.semesters')}}">
-                        <span class="nav-link-text ms-1">
-                            Bảng điểm theo kỳ
-                        </span>
-                    </a>
-                </li>
+                   <a class="nav-link" href="{{ route('student.subjects') }}">
+                       <i class="material-icons">school</i>
+                       <span class="nav-link-text ms-1">Học phần đang học</span>
+                   </a>
+               </li>
+               @endif
                 <li class="nav-item mt-3">
                     <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Lớp</h6>
                 </li>

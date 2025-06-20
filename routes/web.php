@@ -1,17 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\StudentSubjectController;
 
 Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/', function () {
@@ -26,13 +16,21 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
     Route::get('/students/update/{id}', 'StudentController@edit')->name('students.edit');
     Route::post('/students/update/{id}', 'StudentController@update')->name('students.update');
     Route::get('/students/delete/{id}', 'StudentController@delete')->name('students.delete');
+    Route::get('/student/subjects/register', [StudentSubjectController::class, 'register'])->name('student.subjects');
+    Route::get('/student/subjects', [StudentSubjectController::class, 'index'])->name('student.subjects');
+    Route::post('/student/subjects', [StudentSubjectController::class, 'store'])->name('student.subjects.store');
+
 
     Route::get('/teachers', 'TeacherController@index')->name('teachers');
     Route::get('/teachers/create', 'TeacherController@add')->name('teachers.add');
+    Route::get('/teacher/create', [TeacherController::class, 'create']);
+    Route::post('/teacher', [TeacherController::class, 'store']);
     Route::post('/teachers/create', 'TeacherController@create')->name('teachers.create');
     Route::get('/teachers/update/{id}', 'TeacherController@edit')->name('teachers.edit');
     Route::post('/teachers/update/{id}', 'TeacherController@update')->name('teachers.update');
     Route::get('/teachers/delete/{id}', 'TeacherController@delete')->name('teachers.delete');
+    Route::get('teachers/{teacher}/certificates/add', [TeacherController::class, 'createCertificates'])->name('teachers.certificates.add');
+    Route::post('/teachers/{teacher_id}/certificates/save', [TeacherController::class, 'saveCertificate'])->name('teachers.certificates.save');
 
     Route::get('/classes', 'ClassroomController@index')->name('classes');
     Route::get('/classes/create', 'ClassroomController@add')->name('classes.add');

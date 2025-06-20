@@ -14,6 +14,17 @@
         <input type="text" name="username" class="form-control" required value="{{$rec->username ?? old('username') ?? ''}}">
     </div>
 
+    <label class="form-label mt-3">Mã Giảng Viên *</label>
+  <div class="input-group input-group-outline">
+       <input type="text" name="teacher_id" class="form-control" required
+        value="{{ old('teacher_id', $rec->profile->teacher_id ?? '') }}">
+  </div>
+   <label class="form-label mt-3">Số điện thoại *</label>
+   <div class="input-group input-group-outline">
+      <input type="tel" name="phone_number" class="form-control" placeholder="Nhập số"
+        required pattern="[0-9]{10,11}"
+        value="{{ old('phone_number', $rec->profile->phone_number ?? '') }}">
+   </div>
     <label class="form-label mt-3">Email *</label>
     <div class="input-group input-group-outline">
         <input type="email" name="email" class="form-control" required value="{{$rec->email ?? old('email') ?? ''}}">
@@ -24,5 +35,18 @@
         <input type="password" name="password" class="form-control input-outline" {{isset($rec) ? '' : 'required'}}>
     </div>
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">
+
+    <h6 class="mt-4">Thêm bằng cấp mới </h6>
+<div class="row">
+    <div class="col-md-4">
+        <input type="text" name="new_degree_name" class="form-control mb-2" placeholder="Tên bằng cấp">
+    </div>
+    <div class="col-md-4">
+        <input type="text" name="new_institution" class="form-control mb-2" placeholder="Trường cấp">
+    </div>
+    <div class="col-md-4">
+        <input type="number" name="new_year" class="form-control mb-2" placeholder="Năm cấp">
+    </div>
+</div>
 </form>
 @stop

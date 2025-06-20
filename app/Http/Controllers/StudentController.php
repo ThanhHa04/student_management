@@ -14,8 +14,9 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $data['rows'] = MainModel::where('role', 'student')->get();
+        $data['rows'] = MainModel::where( 'role','student')->get();
         return view('students.index', $data);
+        return view('students.index', compact('rows'));
     }
 
     public function add()
