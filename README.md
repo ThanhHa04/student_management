@@ -11,13 +11,14 @@
 - `teacher_profiles`: Lưu thông tin tương ứng với user của giáo viên
 - `student_profiles`: Lưu thông tin tương ứng với user của sinh viên
     - `dob`: Ngày sinh
-    - `code`: Mã số sinh viên
+    - `student_id`: Mã số sinh viên
     - `class_id`: Lớp của sinh viên, trỏ đến ID tương ứng trong bảng `classes`
 - `subjects`: Lưu thông tin các môn học
     - `name`: Tên môn
     - `code`: Mã môn
     - `semester`: Kỳ học
 - `teacher_subject`: Lưu thông tin các giáo viên sẻ đảm nhận dạy môn học nào
+    - `dob`: Ngày sinh
     - `teacher_id`: Trỏ đến ID tương ứng trong bảng `teacher_profiles`
     - `subject_id`: Trỏ đến ID tương ứng trong bảng `subjects`
 - `scores`: Lưu thông tin điểm của từng sinh viên với từng môn học
