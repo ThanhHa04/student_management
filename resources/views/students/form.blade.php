@@ -4,16 +4,15 @@
 <form id="form" class="text-start" method="POST"
     action="{{isset($rec) ? route('students.update', ['id' => $rec->id]) : route('students.create')}}">
     {{ csrf_field() }}
-    <label class="form-label mt-3">Họ và tên *</label>
-    <div class="input-group input-group-outline">
-        <input type="text" name="name" class="form-control" required value="{{$rec->name ?? old('name') ?? ''}}">
-    </div>
-
     <label class="form-label mt-3">Mã số sinh viên *</label>
     <div class="input-group input-group-outline">
-        <input type="text" name="code" class="form-control" required value="{{$rec->profile->code ?? old('code') ?? ''}}">
+        <input type="text" name="student_id" class="form-control" required value="{{ old('student_id', $rec->profile->student_id ?? ($student_id ?? '')) }}" readonly>
     </div>
 
+    <label class="form-label mt-3">Họ và tên *</label>
+        <div class="input-group input-group-outline">
+            <input type="text" name="name" class="form-control" required value="{{$rec->name ?? old('name') ?? ''}}">
+        </div>
     <label class="form-label mt-3">Ngày sinh *</label>
     <div class="input-group input-group-outline">
         <input type="date" name="dob" class="form-control" required value="{{date('Y-m-d', strtotime($rec->profile->dob ?? old('dob') ?? ''))}}">

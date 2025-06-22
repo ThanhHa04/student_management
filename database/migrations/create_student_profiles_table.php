@@ -15,11 +15,15 @@ class CreateStudentProfilesTable extends Migration
     {
         Schema::create('student_profiles', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_id');
             $table->dateTime('dob');
-            $table->string('code');
+            $table->string('student_id')->unique();
             $table->unsignedBigInteger('class_id');
-            $table->foreign('class_id')->references('id')->on('classes');
             $table->timestamps();
+
+            // Foreign key
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('class_id')->references('id')->on('classes');
         });
     }
 

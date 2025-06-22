@@ -19,9 +19,22 @@ class StudentController extends Controller
         return view('students.index', compact('rows'));
     }
 
+    private function generateStudentId(): string
+    {
+        $year = date('y');
+        $studentID = $year;
+        $latest = \App\Models\StudentProfile::where('student_id', 'like', $studentID . '%')
+            ->orderBy('student_id', 'desc')
+            ->value('student_id');
+        $lastIndex = $latest ? (int)substr($latest, 2) : 0;
+        $nextIndex = $lastIndex + 1;
+        return $studentID . str_pad($nextIndex, 3, '0', STR_PAD_LEFT);
+    }
+
     public function add()
     {
         $data['classes'] = Classroom::all();
+        $data['student_id'] = $this->generateStudentId();
         return view('students.form')->with($data);
     }
 
@@ -30,11 +43,26 @@ class StudentController extends Controller
         try {
             $params = $request->all();
             $params['password'] = Hash::make($params['password']);
-            $params['username'] = $params['code'];
+            $params['student_id'] = $this->generateStudentId();
             $params['role'] = 'student';
             DB::transaction(function () use ($params) {
-                $params['profile_id'] = StudentProfile::create($params)->id;
-                MainModel::create($params);
+                $profile = StudentProfile::create([
+                    'name'         => $params['name'],
+                    'dob'          => $params['dob'],
+                    'email'        => $params['email'],
+                    'class_id'     => $params['class_id'],
+                    'student_id'   => $params['student_id'],
+                ]);
+                $params['profile_id'] = $profile->id;
+
+                MainModel::create([
+                    'name'       => $params['name'],
+                    'username'   => $params['student_id'],
+                    'email'      => $params['email'],
+                    'password'   => $params['password'],
+                    'role'       => $params['role'],
+                    'profile_id' => $profile->id,
+                ]);
             });
             return redirect()->route('students')->withSuccess("Đã thêm");
         } catch (\Exception $e) {
@@ -58,7 +86,7 @@ class StudentController extends Controller
                 $params['password'] = Hash::make($params['password']);
             else
                 unset($params['password']);
-            $params['username'] = $params['code'];
+            $params['username'] = $params['student_id'];
             $params['role'] = 'student';
             DB::transaction(function () use ($params, $rec) {
                 $rec->profile->update($params);

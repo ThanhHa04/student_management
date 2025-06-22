@@ -26,7 +26,6 @@ class LoginController extends Controller
         }
 
         $error = 'Tài khoản không tồn tại hoặc mật khẩu không đúng';
-
         return back()->withError($error)->withInput();
     }
 

@@ -10,10 +10,10 @@ class TeacherProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-    'id',           
-    'teacher_id',   
-    'phone_number',                 
-    'password',      
+    'id',    
+    'dob',
+    'phone_number',
+    'teacher_id',
     ];
 
     public function user() {

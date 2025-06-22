@@ -14,9 +14,7 @@ class CreateTeacherProfilesTable extends Migration
     public function up()
     {
         Schema::create('teacher_profiles', function (Blueprint $table) {
-            $table->name();
-            $table->username();
-            $table->string('teacher_id')->nullable();
+            $table->string('teacher_id')->unique();
             $table->string('phone_number')->nullable();
             $table->timestamps();
         });
@@ -24,8 +22,6 @@ class CreateTeacherProfilesTable extends Migration
 
     public function down()
     {
-       Schema::table('teacher_profiles', function (Blueprint $table) {
-        $table->dropColumn('phone');
-      });
+       Schema::dropIfExists('teacher_profiles');
     }
 }

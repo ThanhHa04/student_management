@@ -11,7 +11,7 @@ class StudentProfile extends Model
 
     protected $fillable = [
         'dob',
-        'code',
+        'student_id',
         'class_id',
     ];
 

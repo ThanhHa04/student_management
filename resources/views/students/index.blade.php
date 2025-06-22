@@ -21,7 +21,7 @@
                         <td class="text-xs">{{$row->name}}</td>
                         <td class="text-xs">{{$row->username}}</td>
                         <td class="text-xs">{{date('d/m/Y', strtotime($row->profile->dob))}}</td>
-                        <td class="text-xs">{{$row->profile->code}}</td>
+                        <td class="text-xs">{{$row->profile->student_id}}</td>
                         <td class="text-xs">{{$row->profile->class->name}}</td>
                         <td class="align-middle">
                             <a class="text-secondary font-weight-bold text-xs"
