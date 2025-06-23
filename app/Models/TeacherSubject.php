@@ -24,5 +24,5 @@ class TeacherSubject extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
-    public $table = "teacher_subject";
+    public $table = "teacher_subjects";
 }

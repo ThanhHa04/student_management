@@ -14,8 +14,10 @@ class CreateTeacherProfilesTable extends Migration
     public function up()
     {
         Schema::create('teacher_profiles', function (Blueprint $table) {
+            $table->id();
             $table->string('teacher_id')->unique();
             $table->string('phone_number')->nullable();
+            $table->dateTime('dob');
             $table->timestamps();
         });
     }

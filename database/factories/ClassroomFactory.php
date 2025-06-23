@@ -15,7 +15,17 @@ class ClassroomFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker->unique()->regexify('[A-Z0-9]{4}'),
+            'name' => fake()->randomElement([
+                'Phân tích dữ liệu (N01)',
+                'Mạng máy tính (N01)',
+                'Web nâng cao (N01)',
+                'C nâng cao (N01)',
+                'Lập trình hướng đối tượng (N01)',
+                'Cấu trúc dữ liệu và giải thuật (N01)',
+                'Cơ sở dữ liệu (N01)',
+                'Xác suất thống kê (N01)',
+                'Khoa học trí tuệ nhân tạo (N01)',
+            ]),
         ];
     }
 }

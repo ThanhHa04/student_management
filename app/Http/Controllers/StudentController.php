@@ -28,7 +28,7 @@ class StudentController extends Controller
             ->value('student_id');
         $lastIndex = $latest ? (int)substr($latest, 2) : 0;
         $nextIndex = $lastIndex + 1;
-        return $studentID . str_pad($nextIndex, 3, '0', STR_PAD_LEFT);
+        return 'S' . $studentID . str_pad($nextIndex, 4, '0', STR_PAD_LEFT);
     }
 
     public function add()

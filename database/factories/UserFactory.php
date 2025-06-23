@@ -4,39 +4,70 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\User;
 use App\Models\StudentProfile;
 use App\Models\TeacherProfile;
 use App\Models\Classroom;
 
 class UserFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array
-     */
+    protected $model = User::class;
+    
+    private function generateVietnameseName(): string
+    {
+        $ho = ['Nguyễn', 'Trần', 'Lê', 'Phạm', 'Hoàng', 'Vũ', 'Đặng', 'Bùi', 'Đỗ', 'Hồ'];
+        $tenDem = ['Văn', 'Thị', 'Hữu', 'Minh', 'Ngọc', 'Quang', 'Anh', 'Thanh'];
+        $ten = ['Hòa', 'Tú', 'Hưng', 'Dũng', 'Trang', 'Lan', 'Nhung', 'Khoa', 'Linh', 'Tâm'];
+
+        return $ho[array_rand($ho)] . ' ' .
+            $tenDem[array_rand($tenDem)] . ' ' .
+            $ten[array_rand($ten)];
+    }
+
     public function definition()
     {
         $roles = ['student', 'teacher'];
         $role = $roles[array_rand($roles)];
-        $code = $this->faker->unique()->regexify('[A-Z]{2}[0-9]{8}');
-        if($role == 'student') {
-            $profile_id = StudentProfile::create([
-                'dob' => now(),
-                'code' => $code,
-                'class_id' => Classroom::all()->random()->id,
-            ])->id;
-        } else if ($role == 'teacher') {
-            $profile_id = TeacherProfile::create()->id;
-        }
+
         return [
-            'name' => $this->faker->name(),
-            'username' => $role == 'student' ? $code : $this->faker->userName(),
+            'name' => $this->generateVietnameseName(),
+            'username' => null, // sẽ gán sau
             'email' => $this->faker->unique()->safeEmail(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi',
+            'password' => bcrypt('password'),
             'remember_token' => Str::random(10),
-            'profile_id' => $profile_id,
             'role' => $role,
+            'profile_id' => null, // sẽ gán sau
         ];
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            static $studentIndex = 1;
+            static $teacherIndex = 1;
+            if ($user->role === 'student') {
+                $student_id = 'S250' . $studentIndex++;
+                $profile = StudentProfile::create([
+                    'student_id' => $student_id,
+                    'dob' => $this->faker->dateTimeBetween('2003-01-01', '2006-12-31')->format('Y-m-d'),
+                    'class_id' => Classroom::inRandomOrder()->first()?->id ?? 1,
+                ]);
+                $user->update([
+                    'username' => $student_id,
+                    'profile_id' => $profile->id,
+                ]);
+            } elseif ($user->role === 'teacher') {
+                $teacher_id = 'T250' . $teacherIndex++;
+                $profile = TeacherProfile::create([
+                    'teacher_id' => $teacher_id,
+                    'dob' => $this->faker->dateTimeBetween('1990-01-01', '2005-12-31')->format('Y-m-d'),
+                    'phone_number' => $this->faker->phoneNumber(),
+                ]);
+                $user->update([
+                    'username' => $teacher_id,
+                    'profile_id' => $profile->id,
+                ]);
+            }
+        });
     }
 }

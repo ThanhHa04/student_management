@@ -10,12 +10,11 @@ class CreateStudentSubjectsTable extends Migration
     {
         Schema::create('student_subjects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_profile_id'); 
             $table->unsignedBigInteger('subject_id');
-            $table->integer('number_of_lessons')->default(0);
             $table->timestamps();
 
-            $table->foreign('student_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('student_profile_id')->references('id')->on('student_profiles')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
     }

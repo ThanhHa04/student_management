@@ -13,11 +13,24 @@ class SubjectFactory extends Factory
      * @return array
      */
     public function definition()
-    {
+    {   
+        $credits = fake()->numberBetween(2, 4);
         return [
-            'name' => $this->faker->unique()->name(),
-            'code' => $this->faker->unique()->regexify('[A-Z0-9]{3}'),
-            'semester' => $this->faker->numberBetween(1, 10),
+            'name' => fake()->randomElement([
+                'Phân tích dữ liệu',
+                'Mạng máy tính',
+                'Web nâng cao',
+                'C nâng cao',
+                'Lập trình hướng đối tượng',
+                'Cấu trúc dữ liệu và giải thuật',
+                'Cơ sở dữ liệu',
+                'Xác suất thống kê',
+                'Khoa học trí tuệ nhân tạo',
+            ]),
+            'code' => fake()->unique()->regexify('[A-Z0-9]{3}'),
+            'semester' => fake()->numberBetween(1, 4),
+            'credits' => $credits,
+            'number_of_lessons' => $credits * 15,
         ];
     }
 }

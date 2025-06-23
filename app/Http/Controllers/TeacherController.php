@@ -27,7 +27,7 @@ class TeacherController extends Controller
             ->value('teacher_id');
         $lastIndex = $latest ? (int)substr($latest, 2) : 0;
         $nextIndex = $lastIndex + 1;
-        return $teacherID . str_pad($nextIndex, 3, '0', STR_PAD_LEFT);
+        return 'T' . $teacherID . str_pad($nextIndex, 4, '0', STR_PAD_LEFT);
     }
 
     public function add()

@@ -24,11 +24,11 @@ class ScoreFactory extends Factory
         return [
             'student_id' => $student_id,
             'subject_id' => $subject_id,
-            'tp1' => $this->faker->numberBetween(0, 1000) / 100,
-            'tp2' => $this->faker->numberBetween(0, 1000) / 100,
-            'qt' => $this->faker->numberBetween(0, 1000) / 100,
-            'ck' => $this->faker->numberBetween(0, 1000) / 100,
-            'tk' => $this->faker->numberBetween(0, 1000) / 100,
+            'tp1' => fake()->numberBetween(0, 1000) / 100,
+            'tp2' => fake()->numberBetween(0, 1000) / 100,
+            'qt' => fake()->numberBetween(0, 1000) / 100,
+            'ck' => fake()->numberBetween(0, 1000) / 100,
+            'tk' => fake()->numberBetween(0, 1000) / 100,
         ];
     }
 }

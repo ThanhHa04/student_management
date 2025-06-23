@@ -10,7 +10,6 @@ class TeacherProfile extends Model
     use HasFactory;
 
     protected $fillable = [
-    'id',    
     'dob',
     'phone_number',
     'teacher_id',

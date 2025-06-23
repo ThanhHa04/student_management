@@ -4,11 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTeacherSubjectTable extends Migration
+class CreateTeacherCertificatesTable extends Migration
 {
     public function up()
     {
-        Schema::create('certificates', function (Blueprint $table) {
+        Schema::create('teacher_certificates', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('teacher_id');
             $table->string('degree_name');
@@ -22,7 +22,7 @@ class CreateTeacherSubjectTable extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('certificates');
+        Schema::dropIfExists('teacher_certificates');
     }
 }
 
