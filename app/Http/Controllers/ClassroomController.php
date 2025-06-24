@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Classroom as MainModel;
 use Illuminate\Support\Facades\DB;
 use App\Models\ClassroomStudent;
+use App\Models\Subject;
+use App\Models\User;
+use App\Models\TeacherSubject;
 
 class ClassroomController extends Controller
 {
@@ -42,8 +45,11 @@ class ClassroomController extends Controller
 
     public function edit($id)
     {
-        $data['rec'] = MainModel::findOrFail($id);
-        return view('classes.form')->with($data);
+        $subjects = Subject::all();
+        $teachers = User::where('role', 'teacher')->get();
+        //$data['teacher_subject_list'] = TeacherSubject::where('subject_id', $id)->get();
+        $rec = MainModel::findOrFail($id);
+        return view('classes.form', compact('subjects', 'teachers', 'rec'));
     }
 
     public function update(Request $request, $id)

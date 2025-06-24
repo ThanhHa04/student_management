@@ -74,21 +74,13 @@ class ScoreController extends Controller
 
     public function bySemester(Request $request, $semester)
     {
-        $data['rec'] = $semester;
-        $data['rows'] = MainModel::all();
-        $data['rows_filtered'] = [];
-        foreach ($data['rows'] as $row) {
-            if ($row->subject->semester == $semester) {
-                if(
-                    !(auth()->user()->role == 'student')
-                    || (auth()->user()->role == 'student' && auth()->user()->profile->id == $row->student->id)
-                )
-                    array_push($data['rows_filtered'], $row);
-                    
-            }
-        }
-        $data['rows'] = $data['rows_filtered'];
-        return view('scores.semester.index', $data);
+        $subjectIds = Subject::where('semester', $semester)->pluck('id');
+        $rows = MainModel::with('subject', 'student')->whereIn('subject_id', $subjectIds)->get();
+
+        return view('scores.semester.index', [
+            'rec' => $semester,
+            'rows' => $rows
+        ]);
     }
 
     public function viewClassrooms()

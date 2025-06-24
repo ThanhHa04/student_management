@@ -11,6 +11,8 @@ class Classroom extends Model
     
     protected $fillable = [
         'name',
+        'teacher_profile_id',
+        'subject_id'
     ];
 
     public function students()
@@ -23,7 +25,7 @@ class Classroom extends Model
     }
 
     public function teacher() {
-        return $this->belongsTo(TeacherProfile::class, 'teacher_id');
+        return $this->belongsTo(TeacherProfile::class, 'teacher_profile_id');
     }
 
     public $table = "classes";

@@ -23,7 +23,7 @@
         <input type="number" name="semester" class="form-control" required value="{{$rec->semester ?? old('semester') ?? ''}}">
     </div>
 
-    <label class="form-label mt-3">Giáo viên</label>
+    <label class="form-label mt-3">Giảng viên *</label>
     <div class="overflow-auto" style="max-height: 50vh;">
         @foreach($teachers as $row)
         @php

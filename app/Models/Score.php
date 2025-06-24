@@ -26,6 +26,6 @@ class Score extends Model
     public function student() {
         return $this->belongsTo(StudentProfile::class, 'student_profile_id');
     }
-
+    
     public $table = "scores";
 }
