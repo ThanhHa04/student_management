@@ -10,7 +10,7 @@ class Score extends Model
     use HasFactory;
 
     protected $fillable = [
-        'student_id',
+        'student_profile_id',
         'subject_id',
         'tp1',
         'tp2',
@@ -24,7 +24,7 @@ class Score extends Model
     }
 
     public function student() {
-        return $this->belongsTo(StudentProfile::class, 'student_id');
+        return $this->belongsTo(StudentProfile::class, 'student_profile_id');
     }
 
     public $table = "scores";

@@ -113,6 +113,12 @@ class StudentController extends Controller
     {
         $student = StudentProfile::with('user', 'classrooms')->findOrFail($id);
         $classes = $student->classrooms;
+        
+        // SELECT classrooms.*
+        // FROM classrooms
+        // JOIN classroom_student
+        // ON classroom_student.classroom_id = classrooms.id
+        // WHERE classroom_student.student_profile_id = 5;
 
         return view('students.student_class', compact('student', 'classes'));
     }

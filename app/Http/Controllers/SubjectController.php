@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\TeacherProfile;
 use App\Models\TeacherSubject;
 use App\Models\User;
+use App\Models\Classroom;
 
 class SubjectController extends Controller
 {
@@ -35,9 +36,9 @@ class SubjectController extends Controller
                 'credits' => $params['credits'],
                 'semester'=> $params['semester'],
             ]);
-                if(isset($params['teacher_id']))
-                    foreach($params['teacher_id'] as $row)
-                        TeacherSubject::create(['subject_id' => $rec->id, 'teacher_id' => $row]);
+                if(isset($params['teacher_profile_id']))
+                    foreach($params['teacher_profile_id'] as $row)
+                        TeacherSubject::create(['subject_id' => $rec->id, 'teacher_profile_id' => $row]);
             });
             return redirect()->route('subjects')->withSuccess("Đã thêm");
         } catch (\Exception $e) {
@@ -68,9 +69,9 @@ class SubjectController extends Controller
                 'credits' => $params['credits'],
                 'semester'=> $params['semester'],
             ]);
-                if(isset($params['teacher_id']))
-                    foreach($params['teacher_id'] as $row)
-                        TeacherSubject::create(['subject_id' => $rec->id, 'teacher_id' => $row]);
+                if(isset($params['teacher_profile_id']))
+                    foreach($params['teacher_profile_id'] as $row)
+                        TeacherSubject::create(['subject_id' => $rec->id, 'teacher_profile_id' => $row]);
             });
             return redirect()->route('subjects')->withSuccess("Đã cập nhật");
         } catch (\Exception $e) {
@@ -87,5 +88,17 @@ class SubjectController extends Controller
         } catch (\Exception $e) {
             return redirect()->back()->withError($e->getMessage());
         }
+    }
+
+    public function showSubject($id)
+    {
+        $subject = MainModel::findOrFail($id);
+        $teacher_subject_list = TeacherSubject::with('teacherProfile.user')->where('subject_id', $id)->get();
+        $classroom_list = Classroom::where('subject_id', $id)->get();
+        
+        return view('subjects.subject_info', compact('subject', 'teacher_subject_list', 'classroom_list'))  ;
+        // return view('subjects.subject_info')->with('subject', $subject)
+        //     ->with('teacher_subject_list', $teacher_subject_list)
+        //     ->with('classroom_list', $classroom_list);
     }
 }

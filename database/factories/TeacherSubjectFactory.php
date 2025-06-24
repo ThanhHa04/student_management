@@ -14,7 +14,7 @@ class TeacherSubjectFactory extends Factory
         $subject = Subject::inRandomOrder()->first();
 
         return [
-            'teacher_id' => $TeacherProfile->teacher_id,
+            'teacher_profile_id' => $TeacherProfile->id,
             'subject_id' => $subject?->id,
             'created_at' => now(),
             'updated_at' => now(),

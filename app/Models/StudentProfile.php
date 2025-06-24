@@ -12,24 +12,27 @@ class StudentProfile extends Model
     protected $fillable = [
         'dob',
         'student_id',
-        //'class_id',
         'phone_number',
         'gender'
     ];
 
-    // public function class() {
-    //     return $this->belongsTo(Classroom::class, 'class_id');
-    // }
-
     public function user() {
-        return $this->hasOne(User::class, 'profile_id');
+        return $this->hasOne(User::class, 'profile_id');  //users.profile_id = student_profiles.id
     }
     public function subjects() {
     
-      return $this->belongsToMany(Subject::class, 'student_subject');
+        return $this->belongsToMany(Subject::class, 'student_subject');
+        // student_profiles.id
+        //     ↓
+        // student_subject.student_profile_id = student_profiles.id
+        //     ↔
+        // student_subject.subject_id
+        //     ↓
+        // subjects.id = subject_id 
     }
+
     public function studentSubjects() {
-      return $this->hasMany(StudentSubject::class, 'student_id');
+      return $this->hasMany(StudentSubject::class, 'student_profile_id'); //student_subjects.student_profile_id = student_profiles.id
    }
    public function classrooms()
     {

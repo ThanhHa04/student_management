@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User as MainModel;
 use App\Models\TeacherProfile;
+use App\Models\TeacherTeacherSubject;
+use App\Models\Subject;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Models\Certificate;
@@ -109,5 +111,9 @@ class TeacherController extends Controller
         }
     }
 
+    public function showInfo($id){
+        $teacher_class_list = TeacherSubject::where('teacher_profile_id',$id)->get();
+
+    }
 }
 

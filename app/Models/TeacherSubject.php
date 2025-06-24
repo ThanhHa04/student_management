@@ -12,12 +12,12 @@ class TeacherSubject extends Model
     use HasFactory;
 
     protected $fillable = [
-        'teacher_id',
+        'teacher_profile_id',
         'subject_id',
     ];
 
     public function teacherProfile() {
-        return $this->belongsTo(TeacherProfile::class, 'teacher_id');
+        return $this->belongsTo(TeacherProfile::class, 'teacher_profile_id','id');
     }
 
     public function subject() {

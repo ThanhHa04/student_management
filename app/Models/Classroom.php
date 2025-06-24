@@ -15,11 +15,16 @@ class Classroom extends Model
 
     public function students()
     {
-        return $this->belongsToMany(StudentProfile::class, 'classroom_student', 'classroom_id', 'student_profile_id ');
+        return $this->belongsToMany(StudentProfile::class, 'classroom_student', 'classroom_id', 'student_profile_id');
     }
     public function subject()
     {
-        return $this->belongsTo(Subject::class);
+        return $this->belongsTo(Subject::class, 'subject_id', 'id');
     }
+
+    public function teacher() {
+        return $this->belongsTo(TeacherProfile::class, 'teacher_id');
+    }
+
     public $table = "classes";
 }

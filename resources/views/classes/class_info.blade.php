@@ -1,5 +1,5 @@
 @extends('layout.base')
-@section('page_title', 'Danh sách sinh viên trong lớp: '.$rec->name)
+@section('page_title', 'Danh sách sinh viên trong lớp: '.$classroom->name)
 @section('slot')
 <div class="card">
     <div class="card-body px-0 pb-2">
@@ -14,17 +14,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @forelse($rec->students as $row)
+                    @forelse($classroom_students as $row)
                     <tr>
-                        <td class="text-xs">{{$row->user->name}}</td>
-                        <td class="text-xs">{{$row->code}}</td>
-                        <td class="text-xs">{{date('d/m/Y', strtotime($row->dob))}}</td>
+                        <td class="text-xs">{{$row->student->user->name}}</td>
+                        <td class="text-xs">{{$row->student->student_id}}</td>
+                        <td class="text-xs">{{date('d/m/Y', strtotime($row->student->dob))}}</td>
                         <td class="align-middle">
                             @if(in_array(auth()->user()->role, ['teacher']))
+                            <a class="text-secondary font-weight-bold text-xs" 
+                                href="{{route('scores.thisSubjectStudent', ['student_id' => $row->student->user->id, 'class_id' => $classroom->id])}}">Xem</a> | 
                             <a class="text-secondary font-weight-bold text-xs"
-                                href="{{route('students.edit', ['id' => $row->user->id])}}">Sửa</a> | 
-                            <a class="text-secondary font-weight-bold text-xs"
-                                href="{{route('students.delete', ['id' => $row->user->id])}}">Xóa</a>
+                                href="{{route('students.delete', ['id' => $row->student->user->id])}}">Xóa</a>
                             @endif
                         </td>
                     </tr>

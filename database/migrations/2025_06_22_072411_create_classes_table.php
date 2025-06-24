@@ -12,9 +12,11 @@ class CreateClassesTable extends Migration
             $table->id();
             $table->string('name');
             $table->unsignedBigInteger('subject_id'); //int hong âm
+            $table->unsignedBigInteger('teacher_profile_id')->nullable();
             $table->timestamps();
 
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
+            $table->foreign('teacher_profile_id')->references('id')->on('teacher_profiles')->onDelete('cascade');
         });
     }
 

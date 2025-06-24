@@ -3,6 +3,11 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentSubjectController;
 use App\Http\Controllers\StudentController;
+use App\Http\Controllers\SubjectController;
+use App\Http\Controllers\TeacherController;
+use App\Http\Controllers\ClassroomController;
+use App\Http\Controllers\ScoreController;
+use App\Http\Controllers\LoginController;
 
 Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/', function () {
@@ -11,63 +16,66 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
         else return redirect()->route('scores.student', ['id' => auth()->user()->profile->id]);
     })->name('index');
 
-    Route::get('/students', 'StudentController@index')->name('students');
-    Route::get('/students/create', 'StudentController@add')->name('students.add');
-    Route::post('/students/create', 'StudentController@create')->name('students.create');
-    Route::get('/students/update/{id}', 'StudentController@edit')->name('students.edit');
-    Route::post('/students/update/{id}', 'StudentController@update')->name('students.update');
-    Route::get('/students/delete/{id}', 'StudentController@delete')->name('students.delete');
+    Route::get('/students', [StudentController::class,'index'])->name('students');
+    Route::get('/students/create', [StudentController::class,'add'])->name('students.add');
+    Route::post('/students/create', [StudentController::class,'create'])->name('students.create');
+    Route::get('/students/update/{id}', [StudentController::class,'edit'])->name('students.edit');
+    Route::post('/students/update/{id}', [StudentController::class,'update'])->name('students.update');
+    Route::get('/students/delete/{id}', [StudentController::class, 'delete'])->name('students.delete');
     Route::get('/student/subjects/register', [StudentSubjectController::class, 'register'])->name('student.subjects');
     Route::get('/student/subjects', [StudentSubjectController::class, 'index'])->name('student.subjects');
     Route::post('/student/subjects', [StudentSubjectController::class, 'store'])->name('student.subjects.store');
     Route::get('/students/{id}/classes', [StudentController::class, 'showClassroom'])->name('students.show-classroom');
 
 
-    Route::get('/teachers', 'TeacherController@index')->name('teachers');
-    Route::get('/teachers/create', 'TeacherController@add')->name('teachers.add');
+    Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers');
+    Route::get('/teachers/create', [TeacherController::class, 'add'])->name('teachers.add');
     Route::get('/teacher/create', [TeacherController::class, 'create']);
     Route::post('/teacher', [TeacherController::class, 'store']);
-    Route::post('/teachers/create', 'TeacherController@create')->name('teachers.create');
-    Route::get('/teachers/update/{id}', 'TeacherController@edit')->name('teachers.edit');
-    Route::post('/teachers/update/{id}', 'TeacherController@update')->name('teachers.update');
-    Route::get('/teachers/delete/{id}', 'TeacherController@delete')->name('teachers.delete');
+    Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+    Route::get('/teachers/update/{id}', [TeacherController::class, 'edit'])->name('teachers.edit');
+    Route::post('/teachers/update/{id}', [TeacherController::class, 'update'])->name('teachers.update');
+    Route::get('/teachers/delete/{id}', [TeacherController::class, 'delete'])->name('teachers.delete');
     Route::get('teachers/{teacher}/certificates/add', [TeacherController::class, 'createCertificates'])->name('teachers.certificates.add');
     Route::post('/teachers/{teacher_id}/certificates/save', [TeacherController::class, 'saveCertificate'])->name('teachers.certificates.save');
+        Route::post('/teachers/{teacher_id}', [TeacherController::class, 'showInfo'])->name('teachers.show-info');
 
-    Route::get('/classes', 'ClassroomController@index')->name('classes');
-    Route::get('/classes/create', 'ClassroomController@add')->name('classes.add');
-    Route::post('/classes/create', 'ClassroomController@create')->name('classes.create');
-    Route::get('/classes/update/{id}', 'ClassroomController@edit')->name('classes.edit');
-    Route::post('/classes/update/{id}', 'ClassroomController@update')->name('classes.update');
-    Route::get('/classes/delete/{id}', 'ClassroomController@delete')->name('classes.delete');
-    Route::get('/classes/{id}', 'ClassroomController@view')->name('classes.view');
+    Route::get('/classes', [ClassroomController::class,'index'])->name('classes');
+    Route::get('/classes/create', [ClassroomController::class,'add'])->name('classes.add');
+    Route::post('/classes/create', [ClassroomController::class,'create'])->name('classes.create');
+    Route::get('/classes/update/{id}', [ClassroomController::class,'edit'])->name('classes.edit');
+    Route::post('/classes/update/{id}', [ClassroomController::class,'update'])->name('classes.update');
+    Route::get('/classes/delete/{id}', [ClassroomController::class,'delete'])->name('classes.delete');
+    Route::get('/classes/{id}', [ClassroomController::class,'view'])->name('classes.view');
 
-    Route::get('/subjects', 'SubjectController@index')->name('subjects');
-    Route::get('/subjects/create', 'SubjectController@add')->name('subjects.add');
-    Route::post('/subjects/create', 'SubjectController@create')->name('subjects.create');
-    Route::get('/subjects/update/{id}', 'SubjectController@edit')->name('subjects.edit');
-    Route::post('/subjects/update/{id}', 'SubjectController@update')->name('subjects.update');
-    Route::get('/subjects/delete/{id}', 'SubjectController@delete')->name('subjects.delete');
+    Route::get('/subjects', [SubjectController::class,'index'])->name('subjects');
+    Route::get('/subjects/create', [SubjectController::class,'add'])->name('subjects.add');
+    Route::post('/subjects/create', [SubjectController::class,'create'])->name('subjects.create');
+    Route::get('/subjects/update/{id}', [SubjectController::class,'edit'])->name('subjects.edit');
+    Route::post('/subjects/update/{id}', [SubjectController::class,'update'])->name('subjects.update');
+    Route::get('/subjects/delete/{id}', [SubjectController::class,'delete'])->name('subjects.delete');
+    Route::get('/subjects/{id}/show', [SubjectController::class,'showSubject'])->name('subjects.show-subject');
 
-    Route::get('/scores/create', 'ScoreController@add')->name('scores.add');
-    Route::post('/scores/create', 'ScoreController@create')->name('scores.create');
-    Route::get('/scores/update/{id}', 'ScoreController@edit')->name('scores.edit');
-    Route::post('/scores/update/{id}', 'ScoreController@update')->name('scores.update');
-    Route::get('/scores/delete/{id}', 'ScoreController@delete')->name('scores.delete');
-    Route::get('/scores/subjects', 'ScoreController@viewSubjects')->name('scores.subjects');
-    Route::get('/scores/subject/{id}', 'ScoreController@bySubject')->name('scores.subject');
-    Route::get('/scores/students', 'ScoreController@viewStudents')->name('scores.students');
-    Route::get('/scores/student/{id}', 'ScoreController@byStudent')->name('scores.student');
-    Route::get('/scores/semesters', 'ScoreController@viewSemesters')->name('scores.semesters');
-    Route::get('/scores/semester/{id}', 'ScoreController@bySemester')->name('scores.semester');
-    Route::get('/scores/classrooms', 'ScoreController@viewClassrooms')->name('scores.classrooms');
-    Route::get('/scores/classroom/{id}', 'ScoreController@byClassroom')->name('scores.classroom');
-    Route::get('/scores/request_edit', 'ScoreController@requestEdit')->name('scores.request_edit');
-    Route::get('/scores/request_edit/create/{id}', 'ScoreController@requestEditAdd')->name('scores.request_edit.add');
-    Route::post('/scores/request_edit/create/{id}', 'ScoreController@requestEditCreate')->name('scores.request_edit.create');
-    Route::get('/scores/request_edit/delete/{id}', 'ScoreController@requestEditDelete')->name('scores.request_edit.delete');
+    Route::get('/scores/create', [ScoreController::class,'add'])->name('scores.add');
+    Route::post('/scores/create', [ScoreController::class,'create'])->name('scores.create');
+    Route::get('/scores/update/{id}', [ScoreController::class,'edit'])->name('scores.edit');
+    Route::post('/scores/update/{id}', [ScoreController::class,'update'])->name('scores.update');
+    Route::get('/scores/delete/{id}', [ScoreController::class,'delete'])->name('scores.delete');
+    Route::get('/scores/subjects', [ScoreController::class,'viewSubjects'])->name('scores.subjects');
+    Route::get('/scores/subject/{id}', [ScoreController::class,'bySubject'])->name('scores.subject');
+    Route::get('/scores/students', [ScoreController::class,'viewStudents'])->name('scores.students');
+    Route::get('/scores/student/{id}', [ScoreController::class,'byStudent'])->name('scores.student');
+    Route::get('/scores/student/{student_id}/class/{class_id}', [ScoreController::class,'thisSubjectStudent'])->name('scores.thisSubjectStudent');
+    Route::get('/scores/semesters', [ScoreController::class,'viewSemesters'])->name('scores.semesters');
+    Route::get('/scores/semester/{id}', [ScoreController::class,'bySemester'])->name('scores.semester');
+    Route::get('/scores/classrooms', [ScoreController::class,'viewClassrooms'])->name('scores.classrooms');
+    Route::get('/scores/classroom/{id}', [ScoreController::class,'byClassroom'])->name('scores.classroom');
+    Route::get('/scores/request_edit', [ScoreController::class,'requestEdit'])->name('scores.request_edit');
+    Route::get('/scores/request_edit/create/{id}', [ScoreController::class,'requestEditAdd'])->name('scores.request_edit.add');
+    Route::post('/scores/request_edit/create/{id}', [ScoreController::class,'requestEditCreate'])->name('scores.request_edit.create');
+    Route::get('/scores/request_edit/delete/{id}', [ScoreController::class,'requestEditDelete'])->name('scores.request_edit.delete');
 
-    Route::get('/logout', 'LoginController@logout')->name('logout');
+    Route::get('/logout', [LoginController::class,'logout'])->name('logout');
 });
 
 Route::middleware('guest')->namespace('App\Http\Controllers')->group(function () {
@@ -75,5 +83,5 @@ Route::middleware('guest')->namespace('App\Http\Controllers')->group(function ()
         return view('login');
     })->name('login');
 
-    Route::post('/login', 'LoginController@authenticate')->name('login.post');
+    Route::post('/login', [LoginController::class,'authenticate'])->name('login.post');
 });

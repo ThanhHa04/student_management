@@ -22,13 +22,13 @@ class ScoreFactory extends Factory
         //     return null;
         // }
         return [
-            'student_id' => $student_id,
+            'student_profile_id' => $student_id,
             'subject_id' => $subject_id,
-            'tp1' => fake()->numberBetween(0, 1000) / 100,
-            'tp2' => fake()->numberBetween(0, 1000) / 100,
-            'qt' => fake()->numberBetween(0, 1000) / 100,
-            'ck' => fake()->numberBetween(0, 1000) / 100,
-            'tk' => fake()->numberBetween(0, 1000) / 100,
+            'tp1' => $tp1 = fake()->numberBetween(500, 1000) / 100,
+            'tp2' => $tp2 = fake()->numberBetween(500, 1000) / 100,
+            'qt' => $qt = fake()->numberBetween(500, 1000) / 100,
+            'ck' => $ck = fake()->numberBetween(500, 1000) / 100,
+            'tk' => ($tp1+$tp2)*5/100 + $qt*40/100 + $ck*50/100,
         ];
     }
 }

@@ -34,9 +34,22 @@ class ScoreController extends Controller
 
     public function byStudent($id)
     {
-        $data['rows'] = MainModel::where('student_id', $id)->get();
+        $data['rows'] = MainModel::where('student_profile_id', $id)->get();
         $data['rec'] = StudentProfile::findOrFail($id);
         return view('scores.student.index', $data);
+    }
+
+    public function thisSubjectStudent($student_id, $class_id)
+    {
+        $rec = StudentProfile::findOrFail($student_id);
+        $rows = MainModel::where('student_profile_id', $student_id)
+            ->whereHas('subject.classrooms', function ($query) use ($class_id) {
+                $query->where('subject_id', $class_id);
+            })
+            ->with('subject')
+            ->get();
+
+        return view('scores.student.index', compact ('rec','rows'));
     }
 
     public function viewSemesters()
@@ -44,7 +57,7 @@ class ScoreController extends Controller
         if(auth()->user()->role == 'student') {
             $user = auth()->user();
             $semesters = [];
-            $scores = MainModel::where('student_id', $user->profile->id)->get();
+            $scores = MainModel::where('student_profile_id', $user->profile->id)->get();
             foreach($scores as $score) {
                 if(!in_array($score->subject->semester, $semesters))
                     $semesters[] = $score->subject->semester;
@@ -185,4 +198,5 @@ class ScoreController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
+    
 }

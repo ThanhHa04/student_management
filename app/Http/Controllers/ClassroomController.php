@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Classroom as MainModel;
 use Illuminate\Support\Facades\DB;
+use App\Models\ClassroomStudent;
 
 class ClassroomController extends Controller
 {
@@ -20,9 +21,10 @@ class ClassroomController extends Controller
         return view('classes.form');
     }
 
-    public function view($id) {
-        $data['rec'] = MainModel::findOrFail($id);
-        return view('classes.student_list', $data);
+    public function view($classroom_id) {
+        $classroom = MainModel::findOrFail($classroom_id);
+        $classroom_students = ClassroomStudent::with('student.user')->where('classroom_id',$classroom_id)->get();
+        return view('classes.class_info', compact('classroom_students','classroom'));
     }
 
     public function create(Request $request)

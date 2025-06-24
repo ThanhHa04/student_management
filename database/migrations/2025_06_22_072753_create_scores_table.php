@@ -15,7 +15,7 @@ class CreateScoresTable extends Migration
     {
         Schema::create('scores', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('student_profile_id');
             $table->unsignedBigInteger('subject_id');
             $table->float('tp1')->unsigned();
             $table->float('tp2')->unsigned();
@@ -24,7 +24,7 @@ class CreateScoresTable extends Migration
             $table->float('tk')->unsigned();
             $table->timestamps();
             
-            $table->foreign('student_id')->references('id')->on('student_profiles')->onDelete('cascade');
+            $table->foreign('student_profile_id')->references('id')->on('student_profiles')->onDelete('cascade');
             $table->foreign('subject_id')->references('id')->on('subjects')->onDelete('cascade');
         });
     }

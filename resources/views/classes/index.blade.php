@@ -19,7 +19,7 @@
                         <td class="text-xs">{{$row->students->count()}}</td>
                         <td class="align-middle">
                             <a class="text-secondary font-weight-bold text-xs"
-                                href="{{route('classes.view', ['id' => $row->id])}}">Danh sách</a> | 
+                                href="{{route('classes.view', ['id' => $row->id])}}">Xem</a> | 
                             <a class="text-secondary font-weight-bold text-xs"
                                 href="{{route('classes.edit', ['id' => $row->id])}}">Sửa</a> | 
                             <a class="text-secondary font-weight-bold text-xs"

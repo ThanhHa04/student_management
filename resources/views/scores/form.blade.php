@@ -44,8 +44,8 @@
                 <div class="overflow-auto" style="max-height: 50vh;">
                     @foreach($students as $row)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="student_id"
-                            value="{{$row->profile->id}}" {{ ($rec->student_id ?? old('student_id')) == $row->profile->id ? 'checked' : '' }}>
+                        <input class="form-check-input" type="radio" name="student_profile_id"
+                            value="{{$row->profile->id}}" {{ ($rec->student_profile_id ?? old('student_profile_id')) == $row->profile->id ? 'checked' : '' }}>
                         <label class="custom-control-label" for="customRadio1">{{$row->name}} - {{$row->profile->code}}</label>
                     </div>
                     @endforeach
