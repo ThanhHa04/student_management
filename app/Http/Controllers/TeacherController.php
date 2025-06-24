@@ -21,13 +21,10 @@ class TeacherController extends Controller
     private function generateTeacherId(): string
     {
         $year = date('y');
-        $teacherID = $year;
-        $latest = \App\Models\TeacherProfile::where('teacher_id', 'like', $teacherID . '%')
-            ->orderBy('teacher_id', 'desc')
-            ->value('teacher_id');
-        $lastIndex = $latest ? (int)substr($latest, 2) : 0;
-        $nextIndex = $lastIndex + 1;
-        return 'T' . $teacherID . str_pad($nextIndex, 4, '0', STR_PAD_LEFT);
+        $teacherID = 'T' . $year . '0';
+        $count = \App\Models\TeacherProfile::where('teacher_id', 'like', $teacherID . '%')->count();
+        $nextIndex = $count + 1;
+        return $teacherID . $nextIndex;
     }
 
     public function add()
@@ -46,7 +43,6 @@ class TeacherController extends Controller
             DB::transaction(function () use ($params) {
                 $profile = TeacherProfile::create([
                     'name'         => $params['name'],
-                    'username'     => $params['username'],
                     'phone_number' => $params['phone_number'] ?? null,
                     'email'        => $params['email'],
                     'password'     => $params['password'],
@@ -58,7 +54,7 @@ class TeacherController extends Controller
 
                 MainModel::create([
                     'name'       => $params['name'],
-                    'username'   => $params['username'],
+                    'username'   => $params['teacher_id'],
                     'email'      => $params['email'],
                     'password'   => $params['password'],
                     'role'       => $params['role'],

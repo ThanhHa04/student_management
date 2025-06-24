@@ -30,7 +30,7 @@
         $check = false;
         if(isset($teacher_subject_list))
             foreach($teacher_subject_list as $index => $roww) {
-                if($roww->teacherProfile->id == $row->profile->id) {
+                if($roww->teacherProfile?->teacher_id == $row->profile?->teacher_id) {
                     $check = true;
                     unset($teacher_subject_list[$index]);
                     break;
@@ -39,7 +39,7 @@
         @endphp
         <div class="form-check">
             <input class="form-check-input" type="checkbox" name="teacher_id[]"
-                value="{{$row->profile->id}}" {{ $check ? 'checked' : '' }}>
+                value="{{$row->profile->teacher_id}}" {{ $check ? 'checked' : '' }}>
             <label class="custom-control-label" for="customRadio1">{{$row->name}}</label>
         </div>
         @endforeach

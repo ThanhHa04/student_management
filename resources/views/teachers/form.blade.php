@@ -15,11 +15,6 @@
         <input type="text" name="name" class="form-control" required value="{{$rec->name ?? old('name') ?? ''}}">
     </div>
 
-    <label class="form-label mt-3">Tên tài khoản *</label>
-    <div class="input-group input-group-outline">
-        <input type="text" name="username" class="form-control" required value="{{$rec->username ?? old('username') ?? ''}}">
-    </div>
-
    <label class="form-label mt-3">Số điện thoại *</label>
    <div class="input-group input-group-outline">
       <input type="tel" name="phone_number" class="form-control" placeholder="Nhập số"
@@ -35,6 +30,15 @@
     <label class="form-label mt-3">Ngày sinh *</label>
     <div class="input-group input-group-outline">
         <input type="date" name="dob" class="form-control" required value="{{date('Y-m-d', strtotime($rec->profile->dob ?? old('dob') ?? ''))}}">
+    </div>
+
+    <label class="form-label mt-3">Giới tính *</label>
+    <div class="input-group input-group-outline">
+        <select name="gender" class="form-control" required>
+            <option value="">-- Chọn giới tính --</option>
+            <option value="Nam" {{ old('gender', $rec->profile->gender ?? '') == 'Nam' ? 'selected' : '' }}>Nam</option>
+            <option value="Nữ" {{ old('gender', $rec->profile->gender ?? '') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+        </select>
     </div>
     
     <label class="form-label mt-3">Mật khẩu {{isset($rec) ? '' : '*'}}</label>

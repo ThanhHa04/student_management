@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StudentSubjectController;
+use App\Http\Controllers\StudentController;
 
 Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () {
     Route::get('/', function () {
@@ -19,6 +20,7 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
     Route::get('/student/subjects/register', [StudentSubjectController::class, 'register'])->name('student.subjects');
     Route::get('/student/subjects', [StudentSubjectController::class, 'index'])->name('student.subjects');
     Route::post('/student/subjects', [StudentSubjectController::class, 'store'])->name('student.subjects.store');
+    Route::get('/students/{id}/classes', [StudentController::class, 'showClassroom'])->name('students.show-classroom');
 
 
     Route::get('/teachers', 'TeacherController@index')->name('teachers');

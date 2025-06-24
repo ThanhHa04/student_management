@@ -108,4 +108,12 @@ class StudentController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
+
+    public function showClassroom($id)
+    {
+        $student = StudentProfile::with('user', 'classrooms')->findOrFail($id);
+        $classes = $student->classrooms;
+
+        return view('students.student_class', compact('student', 'classes'));
+    }
 }
