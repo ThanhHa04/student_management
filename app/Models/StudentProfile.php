@@ -12,12 +12,14 @@ class StudentProfile extends Model
     protected $fillable = [
         'dob',
         'student_id',
-        'class_id',
+        //'class_id',
+        'phone_number',
+        'gender'
     ];
 
-    public function class() {
-        return $this->belongsTo(Classroom::class, 'class_id');
-    }
+    // public function class() {
+    //     return $this->belongsTo(Classroom::class, 'class_id');
+    // }
 
     public function user() {
         return $this->hasOne(User::class, 'profile_id');
@@ -29,5 +31,10 @@ class StudentProfile extends Model
     public function studentSubjects() {
       return $this->hasMany(StudentSubject::class, 'student_id');
    }
+   public function classrooms()
+    {
+        return $this->belongsToMany(Classroom::class, 'classroom_student', 'student_profile_id', 'classroom_id');
+    }
+
     public $table = "student_profiles";
 }

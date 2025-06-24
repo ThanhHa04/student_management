@@ -50,7 +50,9 @@ class UserFactory extends Factory
                 $profile = StudentProfile::create([
                     'student_id' => $student_id,
                     'dob' => $this->faker->dateTimeBetween('2003-01-01', '2006-12-31')->format('Y-m-d'),
-                    'class_id' => Classroom::inRandomOrder()->first()?->id ?? 1,
+                    //'class_id' => Classroom::inRandomOrder()->first()?->id ?? 1,
+                    'gender' => $this->faker->randomElement(['Nam', 'Nữ']),
+                    'phone_number' => $this->faker->regexify('09[0-9]{8}'),
                 ]);
                 $user->update([
                     'username' => $student_id,
@@ -61,7 +63,9 @@ class UserFactory extends Factory
                 $profile = TeacherProfile::create([
                     'teacher_id' => $teacher_id,
                     'dob' => $this->faker->dateTimeBetween('1990-01-01', '2005-12-31')->format('Y-m-d'),
-                    'phone_number' => $this->faker->phoneNumber(),
+                    //'phone_number' => $this->faker->phoneNumber(),
+                    'phone_number' => $this->faker->regexify('09[0-9]{8}'),
+                    'gender' => $this->faker->randomElement(['Nam', 'Nữ']),
                 ]);
                 $user->update([
                     'username' => $teacher_id,

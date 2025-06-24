@@ -17,9 +17,10 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        Classroom::factory()->count(3)->create();
+        Subject::factory()->count(10)->create();
+        Classroom::factory()->count(5)->create();
 
-        User::factory()->count(15)->create([
+        User::factory()->count(20)->create([
             'role' => 'student'
         ]);
 
@@ -27,10 +28,20 @@ class DatabaseSeeder extends Seeder
             'role' => 'teacher'
         ]);
 
-        // Các bảng khác
-        Subject::factory()->count(5)->create();
         Score::factory()->count(20)->create();
         StudentSubject::factory()->count(30)->create();
         TeacherSubject::factory()->count(15)->create();
+
+        $students = StudentProfile::all();
+
+        $students->each(function ($student) {
+        $classroomIds = Classroom::inRandomOrder()->take(rand(2, 5))->pluck('id');
+        foreach ($classroomIds as $classroomId) {
+            \App\Models\ClassroomStudent::create([
+                'student_profile_id' => $student->id,
+                'classroom_id' => $classroomId
+            ]);
+        }
+    });
     }
 }

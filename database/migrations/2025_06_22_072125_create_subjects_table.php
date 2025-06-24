@@ -11,8 +11,8 @@ class CreateSubjectsTable extends Migration
     {
         Schema::create('subjects', function (Blueprint $table) {
             $table->id();
-            $table->string('code');
-            $table->string('name');
+            $table->string('code')->unique();
+            $table->string('name')->unique();
             $table->unsignedInteger('semester');
             $table->integer('credits')->default(0);
             $table->integer('number_of_lessons')->default(30);

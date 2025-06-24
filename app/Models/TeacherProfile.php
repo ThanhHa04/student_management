@@ -13,6 +13,7 @@ class TeacherProfile extends Model
     'dob',
     'phone_number',
     'teacher_id',
+    'gender'
     ];
 
     public function user() {

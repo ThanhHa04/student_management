@@ -31,6 +31,6 @@ class CreateTeacherSubjectsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('teacher_subject');
+        Schema::dropIfExists('teacher_subjects');
     }
 }

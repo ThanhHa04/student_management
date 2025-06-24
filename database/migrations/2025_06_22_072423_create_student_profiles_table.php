@@ -17,11 +17,12 @@ class CreateStudentProfilesTable extends Migration
             $table->id();
             $table->dateTime('dob');
             $table->string('student_id')->unique();
-            $table->unsignedBigInteger('class_id');
+            $table->string('phone_number');
+            $table->enum('gender',['Nam', 'Nữ']);
+            //$table->unsignedBigInteger('class_id');
             $table->timestamps();
 
-            // Foreign key
-            $table->foreign('class_id')->references('id')->on('classes');
+            //$table->foreign('class_id')->references('id')->on('classes');
         });
     }
 
