@@ -113,7 +113,7 @@ class StudentController extends Controller
     {
         $student = StudentProfile::with('user', 'classrooms')->findOrFail($id);
         $classes = $student->classrooms;
-        
+            
         // SELECT classrooms.*
         // FROM classrooms
         // JOIN classroom_student

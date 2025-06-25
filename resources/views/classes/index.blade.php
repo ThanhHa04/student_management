@@ -7,6 +7,7 @@
             <table class="table align-items-center mb-0">
                 <thead>
                     <tr>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">ID</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Tên lớp</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Số sinh viên</th>
                         <th class="text-secondary opacity-7"></th>
@@ -15,6 +16,7 @@
                 <tbody>
                     @forelse($rows as $row)
                     <tr>
+                        <td class="text-xs">{{$row->id}}</td>
                         <td class="text-xs">{{$row->name}}</td>
                         <td class="text-xs">{{$row->students->count()}}</td>
                         <td class="align-middle">

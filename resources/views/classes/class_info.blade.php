@@ -36,4 +36,5 @@
         </div>
     </div>
 </div>
+<a href="{{ route('students.show-classroom', ['id' => $row->student->user->id]) }}" class="btn btn-sm btn-secondary mt-3 w-4" >←</a>
 @stop

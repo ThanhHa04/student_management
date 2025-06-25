@@ -152,7 +152,7 @@
                 </li>
                 @if(in_array(auth()->user()->role, ['student']))
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('classes.view', ['id' => auth()->user()->profile->class->id])}}">
+                    <a class="nav-link text-white" href="{{route('students.show-classroom', ['id' => auth()->user()->profile->id])}}">
                         <span class="nav-link-text ms-1">
                             Danh sách lớp
                         </span>
