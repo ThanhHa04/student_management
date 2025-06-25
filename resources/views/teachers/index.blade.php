@@ -18,12 +18,14 @@
                 <tbody>
                     @forelse($rows as $row)
                     <tr>
-                        <td class="text-xs">{{ $row->profile->teacher_id }}</td>
+                        <td class="text-xs">{{$row->profile->teacher_id }}</td>
                         <td class="text-xs">{{$row->name}}</td>
                         <td class="text-xs">{{$row->profile->phone_number}}</td>
                         <td class="text-xs">{{$row->profile->gender}}</td>
                         <td class="text-xs">{{$row->profile->certificate ?? 'Chưa có'}}</td>
                         <td class="align-middle">
+                            <a class="text-secondary font-weight-bold text-xs"
+                                href="{{ route('teachers.show-info', ['teacher_id' => $row->profile->id]) }}">Xem</a> | 
                             <a class="text-secondary font-weight-bold text-xs"
                                 href="{{route('teachers.edit', ['id' => $row->id])}}">Sửa</a> | 
                             <a class="text-secondary font-weight-bold text-xs"

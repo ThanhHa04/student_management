@@ -46,18 +46,5 @@
         <input type="password" name="password" class="form-control input-outline" {{isset($rec) ? '' : 'required'}}>
     </div>
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">
-
-    <h6 class="mt-4">Thêm bằng cấp mới </h6>
-<div class="row">
-    <div class="col-md-4">
-        <input type="text" name="new_degree_name" class="form-control mb-2" placeholder="Tên bằng cấp">
-    </div>
-    <div class="col-md-4">
-        <input type="text" name="new_institution" class="form-control mb-2" placeholder="Trường cấp">
-    </div>
-    <div class="col-md-4">
-        <input type="number" name="new_year" class="form-control mb-2" placeholder="Năm cấp">
-    </div>
-</div>
 </form>
 @stop

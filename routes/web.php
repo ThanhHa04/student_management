@@ -38,7 +38,7 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
     Route::get('/teachers/delete/{id}', [TeacherController::class, 'delete'])->name('teachers.delete');
     Route::get('teachers/{teacher}/certificates/add', [TeacherController::class, 'createCertificates'])->name('teachers.certificates.add');
     Route::post('/teachers/{teacher_id}/certificates/save', [TeacherController::class, 'saveCertificate'])->name('teachers.certificates.save');
-        Route::post('/teachers/{teacher_id}', [TeacherController::class, 'showInfo'])->name('teachers.show-info');
+    Route::get('/teachers/{teacher_id}', [TeacherController::class, 'showInfo'])->name('teachers.show-info');
 
     Route::get('/classes', [ClassroomController::class,'index'])->name('classes');
     Route::get('/classes/create', [ClassroomController::class,'add'])->name('classes.add');

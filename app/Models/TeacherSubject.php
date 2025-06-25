@@ -24,5 +24,9 @@ class TeacherSubject extends Model
         return $this->belongsTo(Subject::class, 'subject_id');
     }
 
+    public function classrooms() {
+        return $this->hasMany(Classroom::class, 'teacher_profile_id');
+    }
+
     public $table = "teacher_subjects";
 }

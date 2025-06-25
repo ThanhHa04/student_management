@@ -10,7 +10,7 @@ class CreateClassesTable extends Migration
     {
         Schema::create('classes', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->unsignedBigInteger('subject_id'); //int hong âm
             $table->unsignedBigInteger('teacher_profile_id')->nullable();
             $table->timestamps();

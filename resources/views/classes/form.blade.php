@@ -22,16 +22,19 @@
         <input type="text" name="name" class="form-control" required value="{{$rec->name ?? old('name') ?? ''}}">
     </div>
 
-    <label class="form-label mt-3">Giảng viên *</label>
-    <div class="overflow-auto" style="max-height: 50vh;">
-        @foreach($teachers as $row)
-        <div class="form-check">
-            <input class="form-check-input" type="radio" name="teacher_profile_id"
-                value="{{$row->profile->id}}" 
-                {{ (isset($rec) && $rec->teacher_profile_id == $row->profile->id) ? 'checked' : '' }}>
-            <label class="custom-control-label" for="customRadio1">{{$row->name}}</label>
+    <div class="row">
+        <div class="col-md-6">
+            <label class="form-label mt-3">Giảng viên *</label>
+            <div class="overflow-auto" style="max-height: 50vh;">
+                @foreach($teachers as $teacher)
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="teacher_profile_id" id="teacher_{{ $teacher->id }}"
+                        value="{{$teacher->id}}" {{ isset($rec) && $rec->teacher_profile_id == $teacher->id ? 'checked' : '' }}>
+                    <label class="form-control-label" for="teacher_{{ $teacher->id }}">{{ $teacher->user->name }}</label>
+                </div>
+                @endforeach
+            </div>
         </div>
-        @endforeach
     </div>
 
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">

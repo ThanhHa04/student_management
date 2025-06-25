@@ -10,6 +10,8 @@ use App\Models\ClassroomStudent;
 use App\Models\Subject;
 use App\Models\User;
 use App\Models\TeacherSubject;
+use App\Models\TeacherProfile;
+use App\Models\StudentProfile;
 
 class ClassroomController extends Controller
 {
@@ -21,11 +23,19 @@ class ClassroomController extends Controller
 
     public function add()
     {
-        return view('classes.form');
+        $subjects = Subject::all();
+        $teachers = TeacherProfile::with('user')->get();
+        $students = StudentProfile::with('user')->get();
+        
+        return view('classes.form', [
+            'subjects' => $subjects,
+            'teachers' => $teachers,
+            'students' => $students,
+        ]);
     }
 
     public function view($classroom_id) {
-        $classroom = MainModel::findOrFail($classroom_id);
+        $classroom = MainModel::with('teacher.user')->findOrFail($classroom_id);
         $classroom_students = ClassroomStudent::with('student.user')->where('classroom_id',$classroom_id)->get();
         return view('classes.class_info', compact('classroom_students','classroom'));
     }
@@ -45,16 +55,19 @@ class ClassroomController extends Controller
 
     public function edit($id)
     {
-        $subjects = Subject::all();
-        $teachers = User::where('role', 'teacher')->get();
-        //$data['teacher_subject_list'] = TeacherSubject::where('subject_id', $id)->get();
-        $rec = MainModel::findOrFail($id);
-        return view('classes.form', compact('subjects', 'teachers', 'rec'));
+        $data['subjects'] = Subject::all();
+        $data['teachers'] = TeacherProfile::with(['user' => function($q) {
+    $q->where('role', 'teacher'); // lọc tại chỗ luôn
+}])->get();
+        $data['students'] = StudentProfile::with('user')->get();
+        $data['rec'] = MainModel::findOrFail($id);
+        return view('classes.form', $data);
     }
 
     public function update(Request $request, $id)
     {
         try {
+            $subjects = Subject::all();
             $rec = MainModel::findOrFail($id);
             $params = $request->all();
             DB::transaction(function () use ($params, $rec) {

@@ -17,7 +17,7 @@ class StudentProfile extends Model
     ];
 
     public function user() {
-        return $this->hasOne(User::class, 'profile_id');  //users.profile_id = student_profiles.id
+        return $this->hasOne(User::class, 'profile_id')->where('role', 'student');  //users.profile_id = student_profiles.id
     }
     public function subjects() {
     
