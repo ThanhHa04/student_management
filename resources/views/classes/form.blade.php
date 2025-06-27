@@ -35,6 +35,29 @@
                 @endforeach
             </div>
         </div>
+        <div class="col-md-6">
+            <label class="form-label mt-3">Sinh viên *</label>
+            <div class="overflow-auto" style="max-height: 50vh;">
+                @foreach($students as $student)
+                @php
+                $check = false;
+                if(isset($student_list))
+                    foreach($student_list as $index => $roww) {
+                        if($roww->student_profile_id == $student->id) {
+                            $check = true;
+                            unset($student_list[$index]);
+                            break;
+                        }
+                    }
+                @endphp
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="student_profile_id[]"
+                        value="{{$student->id}}" {{ $check ? 'checked' : '' }}>
+                    <label class="custom-control-label" for="customRadio1">{{$student->user->name}}</label>
+                </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">

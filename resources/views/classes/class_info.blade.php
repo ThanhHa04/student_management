@@ -17,19 +17,17 @@
                 <tbody>
                     <tr>
                         <td class="text-xs">{{ $classroom->teacher?->teacher_id ?? '' }}</td>
-                        <td class="text-xs">{{ $classroom->teacher?->user?->name ?? '' }}</td>
+                        <td class="text-xs">{{ $classroom->teacher?->user?->name ?? 'Chưa có dữ liệu' }}</td>
                         @if(in_array(auth()->user()->role, ['teacher']))
                             @if($classroom->teacher_profile_id)
                             <td class="align-middle">
                                 <a class="text-secondary font-weight-bold text-xs"
                                     href="{{ route('teachers.show-info', ['teacher_id' => $classroom->teacher_profile_id]) }}">Xem</a> | 
                                 <a class="text-secondary font-weight-bold text-xs"
-                                    href="{{ route('teachers.edit', ['id' => $classroom->teacher_profile_id]) }}">Sửa</a> | 
+                                    href="{{ route('teachers.edit', ['id' => $classroom->teacher->user->id]) }}">Sửa</a> | 
                                 <a class="text-secondary font-weight-bold text-xs"
                                     href="{{ route('teachers.delete', ['id' => $classroom->teacher_profile_id]) }}">Xóa</a>
                             </td>
-                            @else
-                            <td class="align-middle text-xs text-muted">Chưa có dữ liệu</td>
                             @endif
                         @endif
                         </td>
@@ -41,8 +39,8 @@
             <table class="table align-items-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Họ và tên</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã số sinh viên</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Họ và tên</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Ngày sinh</th>
                         <th class="text-secondary opacity-7"></th>
                     </tr>
@@ -50,8 +48,8 @@
                 <tbody>
                     @forelse($classroom_students as $row)
                     <tr>
-                        <td class="text-xs">{{$row->student->user->name}}</td>
                         <td class="text-xs">{{$row->student->student_id}}</td>
+                        <td class="text-xs">{{$row->student->user->name}}</td>
                         <td class="text-xs">{{date('d/m/Y', strtotime($row->student->dob))}}</td>
                         <td class="align-middle">
                             @if(in_array(auth()->user()->role, ['teacher']))

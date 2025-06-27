@@ -45,7 +45,14 @@ class ClassroomController extends Controller
         try {
             $params = $request->all();
             DB::transaction(function () use ($params) {
-                MainModel::create($params);
+                $rec = MainModel::create([
+                'subject_id' => $params['subject_id'],
+                'name' => $params['name'],
+                'teacher_profile_id' => $params['teacher_profile_id'],
+            ]);
+                if(isset($params['student_profile_id']))
+                    foreach($params['student_profile_id'] as $row)
+                        ClassroomStudent::create(['class_id' => $rec->id, 'student_profile_id' => $row]);
             });
             return redirect()->route('classes')->withSuccess("Đã thêm");
         } catch (\Exception $e) {
@@ -55,23 +62,30 @@ class ClassroomController extends Controller
 
     public function edit($id)
     {
-        $data['subjects'] = Subject::all();
-        $data['teachers'] = TeacherProfile::with(['user' => function($q) {
-    $q->where('role', 'teacher'); // lọc tại chỗ luôn
-}])->get();
-        $data['students'] = StudentProfile::with('user')->get();
         $data['rec'] = MainModel::findOrFail($id);
-        return view('classes.form', $data);
+        $data['subjects'] = Subject::all();
+        $data['teachers'] = TeacherProfile::with('user')->get();
+        $data['students'] = StudentProfile::with('user')->get();
+        $data['student_list'] = ClassroomStudent::where('classroom_id', $id)->get();
+        return view('classes.form')->with($data);
     }
 
     public function update(Request $request, $id)
     {
         try {
-            $subjects = Subject::all();
             $rec = MainModel::findOrFail($id);
             $params = $request->all();
             DB::transaction(function () use ($params, $rec) {
-                $rec->update($params);
+                $student_list = $rec->students;
+                foreach($student_list as $row)
+                    $rec->update([
+                    'subject_id' => $params['subject_id'],
+                    'name' => $params['name'],
+                    'teacher_profile_id' => $params['teacher_profile_id'],
+                ]);
+                if (isset($params['student_profile_id'])) {
+                    $rec->students()->sync($params['student_profile_id']);  
+                }
             });
             return redirect()->route('classes')->withSuccess("Đã cập nhật");
         } catch (\Exception $e) {

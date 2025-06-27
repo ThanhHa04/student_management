@@ -30,14 +30,10 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
 
     Route::get('/teachers', [TeacherController::class, 'index'])->name('teachers');
     Route::get('/teachers/create', [TeacherController::class, 'add'])->name('teachers.add');
-    Route::get('/teacher/create', [TeacherController::class, 'create']);
-    Route::post('/teacher', [TeacherController::class, 'store']);
-    Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create');
+    Route::post('/teachers/create', [TeacherController::class, 'create'])->name('teachers.create'); 
     Route::get('/teachers/update/{id}', [TeacherController::class, 'edit'])->name('teachers.edit');
     Route::post('/teachers/update/{id}', [TeacherController::class, 'update'])->name('teachers.update');
     Route::get('/teachers/delete/{id}', [TeacherController::class, 'delete'])->name('teachers.delete');
-    Route::get('teachers/{teacher}/certificates/add', [TeacherController::class, 'createCertificates'])->name('teachers.certificates.add');
-    Route::post('/teachers/{teacher_id}/certificates/save', [TeacherController::class, 'saveCertificate'])->name('teachers.certificates.save');
     Route::get('/teachers/{teacher_id}', [TeacherController::class, 'showInfo'])->name('teachers.show-info');
 
     Route::get('/classes', [ClassroomController::class,'index'])->name('classes');
@@ -70,10 +66,6 @@ Route::middleware('auth')->namespace('App\Http\Controllers')->group(function () 
     Route::get('/scores/semester/{id}', [ScoreController::class,'bySemester'])->name('scores.semester');
     Route::get('/scores/classrooms', [ScoreController::class,'viewClassrooms'])->name('scores.classrooms');
     Route::get('/scores/classroom/{id}', [ScoreController::class,'byClassroom'])->name('scores.classroom');
-    Route::get('/scores/request_edit', [ScoreController::class,'requestEdit'])->name('scores.request_edit');
-    Route::get('/scores/request_edit/create/{id}', [ScoreController::class,'requestEditAdd'])->name('scores.request_edit.add');
-    Route::post('/scores/request_edit/create/{id}', [ScoreController::class,'requestEditCreate'])->name('scores.request_edit.create');
-    Route::get('/scores/request_edit/delete/{id}', [ScoreController::class,'requestEditDelete'])->name('scores.request_edit.delete');
 
     Route::get('/logout', [LoginController::class,'logout'])->name('logout');
 });

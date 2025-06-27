@@ -1,39 +1,39 @@
 @extends('layout.base')
-@section('page_title', isset($rec) ? 'Cập nhật sinh viên: '.$rec->name : 'Thêm sinh viên')
+@section('page_title', isset($rec) ? 'Cập nhật sinh viên: '.$rec->user->name : 'Thêm sinh viên')
 @section('slot')
 <form id="form" class="text-start" method="POST"
     action="{{isset($rec) ? route('students.update', ['id' => $rec->id]) : route('students.create')}}">
     {{ csrf_field() }}
     <label class="form-label mt-3">Mã số sinh viên *</label>
     <div class="input-group input-group-outline">
-        <input type="text" name="student_id" class="form-control" required value="{{ old('student_id', $rec->profile->student_id ?? ($student_id ?? '')) }}" readonly>
+        <input type="text" name="student_id" class="form-control" required value="{{ old('student_id', $rec->student_id ?? ($student_id ?? '')) }}" readonly>
     </div>
 
     <label class="form-label mt-3">Họ và tên *</label>
         <div class="input-group input-group-outline">
-            <input type="text" name="name" class="form-control" required value="{{$rec->name ?? old('name') ?? ''}}">
+            <input type="text" name="name" class="form-control" required value="{{$rec->user->name ?? old('name') ?? ''}}">
         </div>
     <label class="form-label mt-3">Ngày sinh *</label>
     <div class="input-group input-group-outline">
-        <input type="date" name="dob" class="form-control" required value="{{date('Y-m-d', strtotime($rec->profile->dob ?? old('dob') ?? ''))}}">
+        <input type="date" name="dob" class="form-control" required value="{{date('Y-m-d', strtotime($rec->dob ?? old('dob') ?? ''))}}">
     </div>
 
     <label class="form-label mt-3">Email *</label>
     <div class="input-group input-group-outline">
-        <input type="email" name="email" class="form-control" required value="{{$rec->email ?? old('email') ?? ''}}">
+        <input type="email" name="email" class="form-control" required value="{{$rec->user->email ?? old('email') ?? ''}}">
     </div>
 
     <label class="form-label mt-3">SDT*</label>
     <div class="input-group input-group-outline">
-        <input type="text" name="phone_number" class="form-control" required value="{{ old('phone_number', $rec->profile->phone_number ?? '') }}">
+        <input type="text" name="phone_number" class="form-control" required value="{{ old('phone_number', $rec->phone_number ?? '') }}">
     </div>
 
     <label class="form-label mt-3">Giới tính *</label>
     <div class="input-group input-group-outline">
         <select name="gender" class="form-control" required>
             <option value="">-- Chọn giới tính --</option>
-            <option value="Nam" {{ old('gender', $rec->profile->gender ?? '') == 'Nam' ? 'selected' : '' }}>Nam</option>
-            <option value="Nữ" {{ old('gender', $rec->profile->gender ?? '') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
+            <option value="Nam" {{ old('gender', $rec->gender ?? '') == 'Nam' ? 'selected' : '' }}>Nam</option>
+            <option value="Nữ" {{ old('gender', $rec->gender ?? '') == 'Nữ' ? 'selected' : '' }}>Nữ</option>
         </select>
     </div>
 
@@ -42,14 +42,6 @@
         <input type="password" name="password" class="form-control input-outline" {{isset($rec) ? '' : 'required'}}>
     </div>
 
-    <!-- <label class="form-label mt-3">Lớp *</label>
-    <select name="class_id" class="form-select px-3 rounded-lg" required value="{{$rec->class_id ?? old('class_id') ?? ''}}">
-        @foreach($classes as $class)
-        <option value="{{$class->id}}" {{ isset($rec) && $rec->profile->class_id == $class->id ? 'selected' : '' }}>
-            {{$class->name}}
-        </option>
-        @endforeach
-    </select> -->
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">
 </form>
 @stop

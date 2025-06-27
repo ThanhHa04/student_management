@@ -11,7 +11,7 @@ class ClassroomFactory extends Factory
     protected static $index = 0; //Biến chỉ dùng trong class này
     public function definition()
     {
-        $subject = \App\Models\Subject::orderBy('id')->skip(self::$index)->first();
+        $subject = Subject::orderBy('id')->skip(self::$index)->first();
         self::$index++;
 
         return [

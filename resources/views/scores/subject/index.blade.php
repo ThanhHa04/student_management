@@ -21,7 +21,7 @@
                     @forelse($rows as $row)
                     <tr>
                         <td class="text-xs">{{$row->student->user->name}}</td>
-                        <td class="text-xs">{{$row->student->code}}</td>
+                        <td class="text-xs">{{$row->student->student_id}}</td>
                         <td class="text-xs">{{$row->tp1}}</td>
                         <td class="text-xs">{{$row->tp2}}</td>
                         <td class="text-xs">{{$row->qt}}</td>

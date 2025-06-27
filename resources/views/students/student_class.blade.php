@@ -9,7 +9,6 @@
             <table class="table align-items-center mb-0">
                 <thead>
                     <tr>
-                        <!-- <th class="text-xs">ID</th> -->
                         <th class="text-xs ps-2">Tên lớp</th>
                         <th class="text-xs ps-2">Ngày tham gia</th>
                         <th class="text-xs ps-2"></th>
@@ -18,7 +17,6 @@
                 <tbody>
                     @forelse($classes as $class)
                     <tr>
-                        <!-- <td class="text-xs">{{ $class->id }}</td> -->
                         <td class="text-xs">{{ $class->name }}</td>
                         <td class="text-xs">{{ $class->created_at }}</td>
                         <td class="align-middle">

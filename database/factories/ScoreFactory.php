@@ -4,6 +4,8 @@ namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Str;
+use App\Models\Classroom;
+use App\Models\StudentProfile;
 
 class ScoreFactory extends Factory
 {
@@ -14,16 +16,11 @@ class ScoreFactory extends Factory
      */
     public function definition()
     {
-        $student_id = \App\Models\StudentProfile::all()->random()->id;
-        $subject_id = \App\Models\Subject::all()->random()->id;
-        // $existed = \App\Models\Score::where('student_id', $student_id)
-        //     ->where('subject_id', $subject_id)->count();
-        // if(!empty($existed)) {
-        //     return null;
-        // }
+        $student_id = StudentProfile::all()->random()->id;
+        $class_id = Classroom::all()->random()->id;
         return [
             'student_profile_id' => $student_id,
-            'subject_id' => $subject_id,
+            'class_id' => $class_id,
             'tp1' => $tp1 = fake()->numberBetween(500, 1000) / 100,
             'tp2' => $tp2 = fake()->numberBetween(500, 1000) / 100,
             'qt' => $qt = fake()->numberBetween(500, 1000) / 100,

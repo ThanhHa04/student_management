@@ -10,15 +10,10 @@ use App\Models\TeacherProfile;
 use App\Models\TeacherSubject;
 class StudentSubjectController extends Controller
 {
-  public function index()
+     public function index()
     {
         $data['rows'] = MainModel::all();
         return view('subjects.index', $data);
-         $student = Auth::StudentProfile();
-      
-         $subjects = $student->subjects()->with(['TeacherProfile'])->get();
-
-        return view('students.student_subject', compact('subjects'));
     }
     
     public function store(Request $request)
@@ -31,7 +26,7 @@ class StudentSubjectController extends Controller
      public function edit($id)
     {
         $data['rec'] = MainModel::findOrFail($id);
-        $data['students'] = User::where('role', 'students')->get();
+        $data['students'] = User::where('role', 'student')->get();
         $data['student_subjects_list'] = TeacherSubject::where('subject_id', $id)->get();
         return view('subjects.form')->with($data);
     }

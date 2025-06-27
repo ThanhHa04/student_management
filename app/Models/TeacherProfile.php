@@ -20,5 +20,9 @@ class TeacherProfile extends Model
         return $this->hasOne(User::class, 'profile_id', 'id')->where('role', 'teacher');
     }
 
+    public function teacherSubject(){
+        return $this->hasMany(TeacherSubject::class, 'teacher_profile_id');
+    }
+    
     public $table = "teacher_profiles";
 }

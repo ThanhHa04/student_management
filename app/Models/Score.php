@@ -11,7 +11,7 @@ class Score extends Model
 
     protected $fillable = [
         'student_profile_id',
-        'subject_id',
+        'class_id',
         'tp1',
         'tp2',
         'qt',
@@ -19,8 +19,8 @@ class Score extends Model
         'tk',
     ];
 
-    public function subject() {
-        return $this->belongsTo(Subject::class, 'subject_id');
+    public function classroom() {
+        return $this->belongsTo(Classroom::class, 'class_id');
     }
 
     public function student() {

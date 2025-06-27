@@ -23,7 +23,7 @@ class TeacherController extends Controller
     {
         $year = date('y');
         $teacherID = 'T' . $year . '0';
-        $count = \App\Models\TeacherProfile::where('teacher_id', 'like', $teacherID . '%')->count();
+        $count = MainModel::where('role', 'teacher')->orderByDesc('profile_id')->value('profile_id');
         $nextIndex = $count + 1;
         return $teacherID . $nextIndex;
     }
@@ -34,13 +34,11 @@ class TeacherController extends Controller
         return view('teachers.form', $data);
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         try {
             $params = $request->all();
             $params['password'] = Hash::make($params['password']);
             $params['role'] = 'teacher';
-
             DB::transaction(function () use ($params) {
                 $profile = TeacherProfile::create([
                     'name'         => $params['name'],
@@ -50,9 +48,7 @@ class TeacherController extends Controller
                     'teacher_id'   => $params['teacher_id'],
                     'dob'          => $params['dob'],
                 ]);
-
                 $params['profile_id'] = $profile->id;
-
                 MainModel::create([
                     'name'       => $params['name'],
                     'username'   => $params['teacher_id'],
@@ -62,7 +58,6 @@ class TeacherController extends Controller
                     'profile_id' => $profile->id,
                 ]);
             });
-
             return redirect()->route('teachers')->withSuccess("Đã thêm");
         } catch (\Exception $e) {
             return redirect()->back()->withError($e->getMessage())->withInput();

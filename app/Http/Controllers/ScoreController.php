@@ -15,7 +15,9 @@ class ScoreController extends Controller
 {
     public function viewSubjects()
     {
+        $data['classes'] = Classroom::all();
         $data['rows'] = Subject::all();
+        $data['students'] = StudentProfile::with('user')->get();
         return view('scores.subject.list', $data);
     }
 
@@ -28,8 +30,8 @@ class ScoreController extends Controller
 
     public function viewStudents()
     {
-        $data['rows'] = User::where('role', 'student')->get();
-        return view('scores.student.list', $data);
+        $data['rows'] = StudentProfile::with('user')->get();
+        return view('scores.student.list')->with($data);
     }
 
     public function byStudent($id)
@@ -42,12 +44,7 @@ class ScoreController extends Controller
     public function thisSubjectStudent($student_id, $class_id)
     {
         $rec = StudentProfile::findOrFail($student_id);
-        $rows = MainModel::where('student_profile_id', $student_id)
-            ->whereHas('subject.classrooms', function ($query) use ($class_id) {
-                $query->where('subject_id', $class_id);
-            })
-            ->with('subject')
-            ->get();
+        $rows = MainModel::with('classroom.subject')->where('student_profile_id', $student_id)->get();
 
         return view('scores.student.index', compact ('rec','rows'));
     }
@@ -74,8 +71,8 @@ class ScoreController extends Controller
 
     public function bySemester(Request $request, $semester)
     {
-        $subjectIds = Subject::where('semester', $semester)->pluck('id');
-        $rows = MainModel::with('subject', 'student')->whereIn('subject_id', $subjectIds)->get();
+        $classID = Subject::where('semester', $semester)->pluck('id');
+        $rows = MainModel::with('classroom.subject', 'student')->whereIn('class_id', $classID)->get();
 
         return view('scores.semester.index', [
             'rec' => $semester,
@@ -95,7 +92,7 @@ class ScoreController extends Controller
         $data['rows'] = MainModel::all();
         $data['rows_filtered'] = [];
         foreach ($data['rows'] as $row) {
-            if ($row->student->class->id == $id) {
+            if ($row->classroom->id == $id) {
                 array_push($data['rows_filtered'], $row);
             }
         }
@@ -105,8 +102,8 @@ class ScoreController extends Controller
 
     public function add()
     {
-        $data['subjects'] = Subject::all();
-        $data['students'] = User::where('role', 'student')->get();
+        $data['classes'] = Classroom::all();
+        $data['students'] = StudentProfile::with('user')->get();
         return view('scores.form')->with($data);
     }
 
@@ -125,7 +122,7 @@ class ScoreController extends Controller
 
     public function edit($id)
     {
-        $data['subjects'] = Subject::all();
+        $data['classes'] = Classroom::all();
         $data['students'] = User::where('role', 'student')->get();
         $data['rec'] = MainModel::findOrFail($id);
         return view('scores.form')->with($data);
@@ -155,40 +152,4 @@ class ScoreController extends Controller
             return redirect()->back()->withError($e->getMessage());
         }
     }
-
-    public function requestEdit() {
-        $data['rows'] = RequestEditScore::all();
-        return view('scores.request_edit', $data);
-    }
-
-    public function requestEditAdd($id) {
-        $data['rec'] = MainModel::findOrFail($id);
-        return view('scores.request_edit_form', $data);
-    }
-
-    public function requestEditCreate(Request $request, $id) {
-        try {
-            $params = $request->all();
-            $rec = MainModel::findOrFail($id);
-            $params['score_id'] = $rec->id;
-            DB::transaction(function () use ($params) {
-                RequestEditScore::create($params);
-            });
-            return redirect()->back()->withSuccess("Đã thêm");
-        } catch (\Exception $e) {
-            return redirect()->back()->withError($e->getMessage())->withInput();
-        }
-    }
-
-    public function requestEditDelete($id)
-    {
-        try {
-            $rec = RequestEditScore::findOrFail($id);
-            $rec->delete();
-            return redirect()->back()->withSuccess("Đã xóa");
-        } catch (\Exception $e) {
-            return redirect()->back()->withError($e->getMessage());
-        }
-    }
-    
 }

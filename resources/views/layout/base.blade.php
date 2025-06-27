@@ -116,9 +116,9 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-white" href="{{route('scores.subjects')}}">
+                    <a class="nav-link text-white" href="{{route('scores.classrooms')}}">
                         <span class="nav-link-text ms-1">
-                            Bảng điểm theo môn
+                            Bảng điểm theo lớp
                         </span>
                     </a>
                 </li>

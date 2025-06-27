@@ -31,10 +31,12 @@ class StudentProfile extends Model
         // subjects.id = subject_id 
     }
 
-    public function studentSubjects() {
-      return $this->hasMany(StudentSubject::class, 'student_profile_id'); //student_subjects.student_profile_id = student_profiles.id
-   }
-   public function classrooms()
+    public function studentSubjects() 
+    {
+        return $this->hasMany(StudentSubject::class, 'student_profile_id'); //student_subjects.student_profile_id = student_profiles.id
+    }
+
+    public function classrooms()
     {
         return $this->belongsToMany(Classroom::class, 'classroom_student', 'student_profile_id', 'classroom_id');
     }

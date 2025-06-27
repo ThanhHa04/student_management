@@ -19,10 +19,7 @@ class CreateStudentProfilesTable extends Migration
             $table->string('student_id')->unique();
             $table->string('phone_number');
             $table->enum('gender',['Nam', 'Nữ']);
-            //$table->unsignedBigInteger('class_id');
             $table->timestamps();
-
-            //$table->foreign('class_id')->references('id')->on('classes');
         });
     }
 

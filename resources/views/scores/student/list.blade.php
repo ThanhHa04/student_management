@@ -7,21 +7,19 @@
             <table class="table align-items-center mb-0">
                 <thead>
                     <tr>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Họ và tên</th>
                         <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Mã số sinh viên</th>
-                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Lớp</th>
+                        <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Họ và tên</th>
                         <th class="text-secondary opacity-7"></th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($rows as $row)
                     <tr>
-                        <td class="text-xs">{{$row->name}}</td>
-                        <td class="text-xs">{{$row->profile->code}}</td>
-                        <td class="text-xs">{{$row->profile->class->name}}</td>
+                        <td class="text-xs">{{$row->student_id}}</td>
+                        <td class="text-xs">{{$row->user->name}}</td>
                         <td class="align-middle">
                             <a class="text-secondary font-weight-bold text-xs"
-                                href="{{route('scores.student', ['id' => $row->profile->id])}}">Xem điểm</a>
+                                href="{{route('scores.student', ['id' => $row->id])}}">Xem điểm</a>
                         </td>
                     </tr>
                     @empty

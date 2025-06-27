@@ -14,22 +14,19 @@ class StudentController extends Controller
 {
     public function index()
     {
-        $data['rows'] = MainModel::where( 'role','student')->get();
-        return view('students.index', $data);
-        return view('students.index', compact('rows'));
+        $data['rows'] = StudentProfile::with('user')->get();
+        return view('students.index')->with($data);
     }
 
     private function generateStudentId(): string
     {
         $year = date('y');
-        $studentID = $year;
-        $latest = \App\Models\StudentProfile::where('student_id', 'like', $studentID . '%')
-            ->orderBy('student_id', 'desc')
-            ->value('student_id');
-        $lastIndex = $latest ? (int)substr($latest, 2) : 0;
-        $nextIndex = $lastIndex + 1;
-        return 'S' . $studentID . str_pad($nextIndex, 4, '0', STR_PAD_LEFT);
+        $studentID = 'S' . $year . '0';
+        $latest = MainModel::where('role', 'student')->orderByDesc('profile_id')->value('profile_id');
+        $nextIndex = $latest + 1;
+        return $studentID . $nextIndex;
     }
+
 
     public function add()
     {
@@ -38,8 +35,7 @@ class StudentController extends Controller
         return view('students.form')->with($data);
     }
 
-    public function create(Request $request)
-    {
+    public function create(Request $request){
         try {
             $params = $request->all();
             $params['password'] = Hash::make($params['password']);
@@ -50,11 +46,10 @@ class StudentController extends Controller
                     'name'         => $params['name'],
                     'dob'          => $params['dob'],
                     'email'        => $params['email'],
-                    'class_id'     => $params['class_id'],
+                    'phone_number' => $params['phone_number'],
                     'student_id'   => $params['student_id'],
                 ]);
                 $params['profile_id'] = $profile->id;
-
                 MainModel::create([
                     'name'       => $params['name'],
                     'username'   => $params['student_id'],
@@ -73,7 +68,7 @@ class StudentController extends Controller
     public function edit($id)
     {
         $data['classes'] = Classroom::all();
-        $data['rec'] = MainModel::findOrFail($id);
+        $data['rec'] = StudentProfile::with('user')->findOrFail($id);
         return view('students.form')->with($data);
     }
 

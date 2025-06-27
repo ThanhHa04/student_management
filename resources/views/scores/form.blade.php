@@ -1,7 +1,7 @@
 @extends('layout.base')
-@section('page_title', isset($rec) ? 'Cập nhật điểm' : 'Thêm điểm')
+@section('page_title', isset($rec) ? 'Cập nhật điểm cho sinh viên: ' .$rec->student->user->name : 'Thêm điểm')
 @section('slot')
-<form id="form" class="text-start" method="POST" action="{{isset($rec) ? route('scores.update', ['id' => $rec->id]) : route('scores.create')}}">
+    <form id="form" class="text-start" method="POST" action="{{isset($rec) ? route('scores.update', ['id' => $rec->id]) : route('scores.create')}}">
     {{ csrf_field() }}
     <div class="container">
         <div class="row">
@@ -38,32 +38,34 @@
                 </div>
             </div>
         </div>
+        @if (!isset($rec))
         <div class="row">
             <div class="col-md-6">
                 <label class="form-label mt-3">Chọn sinh viên *</label>
                 <div class="overflow-auto" style="max-height: 50vh;">
                     @foreach($students as $row)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="student_profile_id"
-                            value="{{$row->profile->id}}" {{ ($rec->student_profile_id ?? old('student_profile_id')) == $row->profile->id ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="customRadio1">{{$row->name}} - {{$row->profile->code}}</label>
+                        <input class="form-check-input" type="radio" name="student_profile_id" id="{{$row->id}}"
+                            value="{{$row->id}}" {{ ($rec->student_profile_id ?? old('student_profile_id')) == $row->id ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="{{$row->id}}">{{$row->user->name}}</label>
                     </div>
                     @endforeach
                 </div>
             </div>
             <div class="col-md-6">
-                <label class="form-label mt-3">Chọn môn *</label>
+                <label class="form-label mt-3">Chọn lớp *</label>
                 <div class="overflow-auto" style="max-height: 50vh;">
-                    @foreach($subjects as $row)
+                    @foreach($classes as $row)
                     <div class="form-check">
-                        <input class="form-check-input" type="radio" name="subject_id"
-                            value="{{$row->id}}" {{ ($rec->subject_id ?? old('subject_id')) == $row->id ? 'checked' : '' }}>
-                        <label class="custom-control-label" for="customRadio1">{{$row->name}}</label>
+                        <input class="form-check-input" type="radio" name="class_id" id="{{$row->id}}"
+                            value="{{$row->id}}" {{ ($rec->class_id ?? old('class_id')) == $row->id ? 'checked' : '' }}>
+                        <label class="custom-control-label" for="{{$row->id}}">{{$row->name}}</label>
                     </div>
                     @endforeach
                 </div>
             </div>
         </div>
+        @endif
     </div>
 
     <input type="submit" class="btn bg-gradient-primary my-4 mb-2" value="{{ isset($rec) ? 'Cập nhật' : 'Thêm'}}">
