@@ -37,6 +37,7 @@
 - Sinh viên:
     - Tài khoản: `mssv`
     - Mật khẩu: `password`
+- Chạy php artisan migrate:fresh --seed để tạo data ảo
 
 - Giáo viên:
     - Tài khoản: `teacher`
