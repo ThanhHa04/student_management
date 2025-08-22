@@ -28,7 +28,7 @@ class User extends Authenticatable
     ];
 
     public function subjects() {
-      return $this->belongsToMany(Subject::class, 'student_subjects', 'student_id', 'subject_id');
+        return $this->belongsToMany(Subject::class, 'student_subjects', 'student_id', 'subject_id');
     }
 
     public function profile() {

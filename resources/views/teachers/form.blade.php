@@ -6,7 +6,7 @@
     {{ csrf_field() }}
     <label class="form-label mt-3">Mã Giảng Viên *</label>
     <div class="input-group input-group-outline">
-        <input type="text" name="teacher_id" class="form-control" required
+        <input type="text" name="teacher_id" class="form-control opacity-10" required
             value="{{ old('teacher_id', $rec->profile->teacher_id ?? ($teacher_id ?? '')) }}" readonly>    
     </div>
     

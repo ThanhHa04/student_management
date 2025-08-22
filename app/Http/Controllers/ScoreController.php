@@ -112,7 +112,15 @@ class ScoreController extends Controller
         try {
             $params = $request->all();
             DB::transaction(function () use ($params) {
-                MainModel::create($params);
+                MainModel::create([
+                    'student_profile_id' => $params['student_profile_id'],
+                    'class_id' => $params['class_id'],
+                    'tp1' => $params['tp1'],
+                    'tp2' => $params['tp2'],
+                    'qt' => $params['qt'],
+                    'ck' => $params['ck'],
+                    'tk' => ($params['tp1']+$params['tp2'])*10/100 + $params['qt']*40/100 + $params['ck']*0.5,
+                ]);
             });
             return redirect()->route('scores.students')->withSuccess("Đã thêm");
         } catch (\Exception $e) {

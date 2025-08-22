@@ -68,6 +68,7 @@ class SubjectController extends Controller
                     'code' => $params['code'],
                     'credits' => $params['credits'],
                     'semester'=> $params['semester'],
+                    
                 ]);
                 if(isset($params['teacher_profile_id']))
                     foreach($params['teacher_profile_id'] as $row)
